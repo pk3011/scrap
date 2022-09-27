@@ -1,12 +1,12 @@
-import cloudscraper
 import time
+
+import cloudscraper
 from pyrogram import Client, __version__, filters
 from pyrogram.raw.all import layer
 
 from bot import CMD, LOGGER, Config
 from bot.helpers.translations import lang
 from bot.helpers.utilities import bypasser, direct_link, shortener
-from bot.helpers.utilities.scraper import index_scrap, psa_scrap, filecrypt_scrap
 from bot.helpers.utilities.gdrive_direct import (
     drivehubs,
     gdtot,
@@ -23,6 +23,7 @@ from bot.helpers.utilities.regex import (
     is_udrive_link,
     is_unified_link,
 )
+from bot.helpers.utilities.scraper import filecrypt_scrap, index_scrap, psa_scrap
 
 dom = Config.EMILY_API_URL
 api = f"{dom}/paste"
