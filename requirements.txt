@@ -1,0 +1,15 @@
+beautifulsoup4
+bs4
+cloudscraper
+colorama
+flask
+flask_restful
+lk21
+lxml
+pyrogram
+python-telegram-bot
+requests
+selenium
+telegraph
+tgcrypto
+urllib3

@@ -1,0 +1,135 @@
+{
+  "name": "MultiFunction_Bot",
+  "description": "Telegram Bot to Bypass Short Links and get direct URLs",
+  "keywords": [
+      "telegram",
+      "bypass",
+      "adlinks",
+      "python",
+      "bot"
+    ],
+  "repository": "https://github.com/WizardX22/MultiFunction_Bot/",
+  "success_url": "/",
+  "env": {
+      "API_ID": {
+          "description": "Get this value from https://my.telegram.org",
+		  "value":"",
+          "required": true
+      },
+      "API_HASH": {
+          "description": "Get this value from https://my.telegram.org",
+		  "value":"",
+          "required": true
+      },
+      "BOT_TOKEN": {
+          "description": "Get this value from @BotFather",
+		  "value":"",
+          "required": true
+      },
+	  "AUTH_USER": {
+          "description": "Your Telegram User ID",
+		  "value":"",
+          "required": true
+      },
+	  "BOT_USERNAME": {
+          "description": "Your Bot userName Without `@`",
+		  "value":"",
+          "required": true
+      },
+	  "BIFM_URL": {
+          "description": "Your BIFM Instance URL(Use Default)",
+		  "value":"https://bifm.tacohitbox.com/api/bypass?url",
+          "required": true
+	  },
+	  "BYPASS_API_URL": {
+          "description": "Your Emily Bypass API Instance URL(Use Default)",
+		  "value":"https://emily-api.fly.dev/api",
+          "required": true
+	  },
+	  "TELEGRAPH_NAME": {
+          "description": "Put a Telegr.ph UserName to generate Token",
+		  "value":"UltimateBypass",
+          "required": true
+      },
+	  "TELEGRAPH_LINK": {
+          "description": "Put a Telegr.ph Author Link to generate Token",
+		  "value":"https://github.com/missemily2022",
+          "required": true
+      },
+	  "GDTOT_CRYPT": {
+          "description": "Put your GDTot Crypt",
+		  "value":"",
+          "required": false
+      },
+	  "UNIFIED_EMAIL": {
+          "description": "Put your Generated Unified Email",
+		  "value":"",
+          "required": false
+      },
+	  "UNIFIED_PASS": {
+          "description": "Put your Generated Unified Pass",
+		  "value":"",
+          "required": false
+      },
+	  "HUBDRIVE_CRYPT": {
+          "description": "Put your HubDrive Crypt",
+		  "value":"",
+          "required": false
+      },
+	  "KATDRIVE_CRYPT": {
+          "description": "Put your KatDrive Crypt",
+		  "value":"",
+          "required": false
+      },
+	  "KOLOP_CRYPT": {
+          "description": "Put your Kolop Crypt",
+		  "value":"",
+          "required": false
+      },
+	  "DRIVEFIRE_CRYPT": {
+          "description": "Put your DriveFire Crypt",
+		  "value":"",
+          "required": false
+      },
+	  "DRIVEBUZZ_CRYPT": {
+          "description": "Put your DriveBuzz Crypt",
+		  "value":"",
+          "required": false
+      },
+	  "GADRIVE_CRYPT": {
+          "description": "Put your GaDrive Crypt",
+		  "value":"",
+          "required": false
+      },
+	  "JIODRIVE_CRYPT": {
+          "description": "Put your JioDrive Crypt",
+		  "value":"",
+          "required": false
+      },
+	  "Sharerpw_XSRF": {
+          "description": "Put your Sharer XSRF Token",
+		  "value":"",
+          "required": false
+      },
+	  "Sharerpw_laravel": {
+          "description": "Put your Sharer Laravel Session",
+		  "value":"",
+          "required": false
+      },
+	  "UPTOBOX_TOKEN": {
+          "description": "Put your UptoBox Account Token (Free Account works too!)",
+		  "value":"",
+          "required": false
+      }
+	  
+  },
+  "buildpacks": [{
+      "url": "heroku/python"
+    }],
+  "formation": {
+      "worker": {
+          "quantity": 1,
+          "size": "free"
+      }
+  }
+}
