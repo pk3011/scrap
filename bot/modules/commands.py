@@ -15,13 +15,13 @@ from bot.helpers.utilities.gdrive_direct import (
     unified,
 )
 from bot.helpers.utilities.lists import (
-    yandisk_list,
-    fmed_list,
-    sbembed_list,
-    linkvertise_list,
-    directdl_list,
     bypass_list,
+    directdl_list,
+    fmed_list,
+    linkvertise_list,
+    sbembed_list,
     scrape_list,
+    yandisk_list,
 )
 from bot.helpers.utilities.regex import (
     is_a_url,
@@ -34,19 +34,19 @@ from bot.helpers.utilities.regex import (
     is_unified_link,
 )
 from bot.helpers.utilities.scraper import (
-    filecrypt_scrap, 
-    index_scrap, 
-    psa_scrap,
     atishmkv_scrap,
     cinevez_scrap,
     cinevood_scrap,
+    filecrypt_scrap,
     htpmovies_scrap,
     igggames_scrape,
-    moviesdrama_scrap,
+    index_scrap,
     magnet_scrap,
+    moviesdrama_scrap,
     olamovies_scrap,
     toonworld4all_scrap,
 )
+
 dom = Config.EMILY_API_URL
 api = f"{dom}/paste"
 
@@ -97,7 +97,7 @@ async def help(bot, update):
     tuv += "\n• <i>Use /magnet to Extract Magnets from Torrent Websites</i>"
     tuv += "\n• <i>Use /shorten to get Shortened Version of your URLs</i>"
     tuv += "\n• <i>Use /index to extract Direct Links from Bhadoo Index Folder URLs (which do not have any kind of Protection)</i>"
-    #tuv += "\n• <i>Use /psa to Extract Download Links from psa.pm URLs</i>"
+    # tuv += "\n• <i>Use /psa to Extract Download Links from psa.pm URLs</i>"
     tuv += "\n• <i>Use /filecrypt to Extract Download Links from FileCrypt URLs</i>"
     tuv += "\n• <i>Use /scrape to Extract Direct Links from Supported Sites</i>"
     tuv += "\n• <i>Use /gd to extract GDrive Links from GDTot, AniDrive, DriveRoot, DriveFlix, IndiDrive, DriveHub, AppDrive, DriveApp, DriveAce, GdFlix, DriveLinks, DriveBit, DriveSharer, DrivePro, HubDrive, KatDrive, Kolop, DriveFire, DriveBuzz, GaDrive, JioDrive, Sharer.pw, Drivehubs.xyz & Pahe</i>"
@@ -367,9 +367,11 @@ async def byps(bot, update):
             try:
                 link_type = "Script Generic"
                 res = bypasser.script(url)
-            except:
+            except BaseException:
                 err = "<b><i>Could not find Bypass for your URL</i></b>"
-                await update.reply_text(text=err, disable_web_page_preview=True, quote=True)
+                await update.reply_text(
+                    text=err, disable_web_page_preview=True, quote=True
+                )
                 return
         else:
             err = "<b><i>Could not find your URL</i></b>"
@@ -705,14 +707,14 @@ async def scrp(bot, update):
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         """ des_url = psa_scrap(url)
         LOGGER.info(f" Destination : {des_url}")
-        xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}" """ 
-        xyz = "<b>PSA Scraper has been patched for now!</b>"        
+        xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}" """
+        xyz = "<b>PSA Scraper has been patched for now!</b>"
     elif "toonworld4all." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>ToonWorld4all</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         des_url = toonworld4all_scrap(url)
         LOGGER.info(f" Destination : {des_url}")
-        xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"    
+        xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "pahe." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Pahe</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)

@@ -1,11 +1,11 @@
+import re
 import time
 
 import cloudscraper
-import re
 import requests
+from bs4 import BeautifulSoup
 
 from bot import Config
-from bs4 import BeautifulSoup
 
 dom = Config.EMILY_API_URL
 api = f"{dom}/bypass"
@@ -192,40 +192,40 @@ def rocklinks(url):
 def script(url):
     try:
         scriptb(url)
-    except:
+    except BaseException:
         client = requests.session()
         scripta(f"https://{url.split('/')[-2]}/", url, client)
 
 
 def scripta(domain, url, client):
     res = client.get(url)
-    soup = BeautifulSoup(res.text,"html.parser")
+    soup = BeautifulSoup(res.text, "html.parser")
     soup = soup.find("form").findAll("input")
     datalist = []
     for ele in soup:
         datalist.append(ele.get("value"))
     data = {
-            "_method": datalist[0],
-            "_csrfToken": datalist[1],
-            "ad_form_data": datalist[2],
-            "_Token[fields]": datalist[3],
-            "_Token[unlocked]": datalist[4],
-        }
+        "_method": datalist[0],
+        "_csrfToken": datalist[1],
+        "ad_form_data": datalist[2],
+        "_Token[fields]": datalist[3],
+        "_Token[unlocked]": datalist[4],
+    }
     client.headers = {
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101 Firefox/103.0",
-            "Accept": "application/json, text/javascript, */*; q=0.01",
-            "Accept-Language": "en-US,en;q=0.5",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "X-Requested-With": "XMLHttpRequest",
-            "Origin": domain,
-            "Connection": "keep-alive",
-            "Referer": url,
-            "Sec-Fetch-Dest": "empty",
-            "Sec-Fetch-Mode": "cors",
-            "Sec-Fetch-Site": "same-origin",
-            }
-    time.sleep(10) # important
-    response = client.post(domain+"/links/go", data=data).json()
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101 Firefox/103.0",
+        "Accept": "application/json, text/javascript, */*; q=0.01",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "X-Requested-With": "XMLHttpRequest",
+        "Origin": domain,
+        "Connection": "keep-alive",
+        "Referer": url,
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+    }
+    time.sleep(10)  # important
+    response = client.post(domain + "/links/go", data=data).json()
     furl = response["url"]
     return furl
 
@@ -233,7 +233,7 @@ def scripta(domain, url, client):
 def scriptb(url):
     client = requests.session()
     res = client.get(url)
-    soup = BeautifulSoup(res.text,"html.parser")
+    soup = BeautifulSoup(res.text, "html.parser")
     soup = soup.find("form")
     action = soup.get("action")
     soup = soup.findAll("input")
@@ -253,7 +253,10 @@ def scriptb(url):
         "Sec-Fetch-Site": "same-origin",
         "Sec-Fetch-User": "?1",
     }
-    data = {"newwpsafelink": datalist[1], "g-recaptcha-response": RecaptchaV3(ANCHOR_URL)}
+    data = {
+        "newwpsafelink": datalist[1],
+        "g-recaptcha-response": RecaptchaV3(ANCHOR_URL),
+    }
     response = client.post(action, data=data)
     soup = BeautifulSoup(response.text, "html.parser")
     soup = soup.findAll("div", class_="wpsafe-bottom text-center")

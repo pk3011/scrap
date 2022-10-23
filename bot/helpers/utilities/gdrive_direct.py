@@ -8,10 +8,10 @@ import cloudscraper
 import requests
 from lxml import etree
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
 
 from bot import LOGGER, Config
 
@@ -262,32 +262,38 @@ def pahe(url: str) -> str:
 
     os.chmod("/usr/src/app/chromedriver", 755)
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.binary_location = ("/usr/bin/google-chrome")
+    chrome_options.binary_location = "/usr/bin/google-chrome"
     chrome_options.add_argument("--start-maximized")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--headless")
     wd = webdriver.Chrome("/usr/src/app/chromedriver", chrome_options=chrome_options)
     wd.get(url)
-    texts= [y for x in [wd.find_elements("xpath",type) for type in LINK_TYPE] for y in x]
+    texts = [
+        y for x in [wd.find_elements("xpath", type) for type in LINK_TYPE] for y in x
+    ]
     texts[1].click()
     if "intercelestial." not in wd.current_url:
         wd.close()
         wd.switch_to(wd.find_all(wd.switch_to.Window())[0])
         LOGGER.info("Chrome Pahe: Website Switched!")
     try:
-        WebDriverWait(wd, 10).until(ec.element_to_be_clickable((By.XPATH, AGREE_BUTTON))).click()
+        WebDriverWait(wd, 10).until(
+            ec.element_to_be_clickable((By.XPATH, AGREE_BUTTON))
+        ).click()
     except TimeoutException:
         LOGGER.info("Chrome Pahe: Browser Verification Error!")
         return "Chrome Pahe: Browser Verification Error!"
     wd.execute_script("document.getElementById('landing').submit();")
-    WebDriverWait(wd, 30).until(ec.element_to_be_clickable((By.CSS_SELECTOR, GENERATE))).click()
+    WebDriverWait(wd, 30).until(
+        ec.element_to_be_clickable((By.CSS_SELECTOR, GENERATE))
+    ).click()
     WebDriverWait(wd, 45).until(ec.element_to_be_clickable((By.ID, SHOW_LINK))).click()
     window_after = wd.window_handles[1]
     wd.switch_to.window(window_after)
     wd.execute_script("window.scrollTo(0,535.3499755859375)")
     WebDriverWait(wd, 30).until(ec.element_to_be_clickable((By.LINK_TEXT, CONTINUE)))
-    last = wd.find_element("link text",CONTINUE)
+    last = wd.find_element("link text", CONTINUE)
     sleep(5)
     wd.execute_script("arguments[0].click();", last)
     flink = wd.current_url
