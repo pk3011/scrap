@@ -1,14 +1,16 @@
 {
-  "name": "MultiFunction_Bot",
-  "description": "Telegram Bot to Bypass Short Links and get direct URLs",
+  "name": "MultiFunctionBot",
+  "description": "Telegram Bot to bypass Short Links, get direct DLs & also Shorten URLs",
   "keywords": [
       "telegram",
       "bypass",
+	  "dlgen",
+	  "shortener",
       "adlinks",
       "python",
       "bot"
     ],
-  "repository": "https://github.com/WizardX22/MultiFunction_Bot/",
+  "repository": "https://github.com/missemily22/MultiFunctionBot/",
   "success_url": "/",
   "env": {
       "API_ID": {
@@ -41,19 +43,19 @@
 		  "value":"https://bifm.tacohitbox.com/api/bypass?url",
           "required": true
 	  },
-	  "BYPASS_API_URL": {
+	  "EMILY_API_URL": {
           "description": "Your Emily Bypass API Instance URL(Use Default)",
 		  "value":"https://emily-api.fly.dev/api",
           "required": true
 	  },
 	  "TELEGRAPH_NAME": {
-          "description": "Put a Telegr.ph UserName to generate Token",
-		  "value":"UltimateBypass",
+          "description": "Put a Telegr.ph / graph.org UserName to generate Token",
+		  "value":"MultiFunction",
           "required": true
       },
 	  "TELEGRAPH_LINK": {
-          "description": "Put a Telegr.ph Author Link to generate Token",
-		  "value":"https://github.com/missemily2022",
+          "description": "Put a Telegr.ph / graph.org Author Link to generate Token",
+		  "value":"https://github.com/missemily22",
           "required": true
       },
 	  "GDTOT_CRYPT": {
@@ -121,7 +123,6 @@
 		  "value":"",
           "required": false
       }
-	  
   },
   "buildpacks": [{
       "url": "heroku/python"

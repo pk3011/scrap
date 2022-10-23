@@ -5,7 +5,7 @@
 - `API_ID` Your API ID from [my.telegram.org](https://my.telegram.org)
 - `BOT_TOKEN` Your bot token from [@BotFather](https://telegram.dog/BotFather)
 - `AUTH_USER` - Your userID
-- `BOT_USERNAME` Your BotuserName Without `@`. Example `SpamBot`
+- `BOT_USERNAME` Your BotuserName Without `@`. Example `MultiFunctionUse_Bot`
 - `BIFM_URL` Your [BIFM](https://git.gay/a/bifm) instance Url. Default to `https://bifm.tacohitbox.com/api/bypass?url`
 - `GDTOT_CRYPT` Put your GDTot Crypt
 - `UNIFIED_EMAIL` Put your Generated Unified Email
@@ -39,10 +39,11 @@ ouo - Get Direct Link for Ouo URLs
 shorte - Get Direct Link for Shorte.st URLs
 multi - Bypass Short Links using Bypass.vip API
 rocklink - Get Direct Link for RockLink URLs
-shorten - Get AdFree Shortened URls of your Link
+shorten - Get AdFree Shortened URLs of your Link
+magnet - Extract Magnet from Torrent Websites
 index - Extract Direct Links from Bhadoo Index Folder URLs
-psa - Extract Download Link Page from psa.pm URLs
 filecrypt - Extract Download Link Page from FileCrypt URLs
+scrape - Extract Direct Links from Supported Sites
 gd - Get GDrive Links for various Drive File Sharer
 teml - Run Shell/Terminal Commands
 eval - Evaluate Codes
@@ -89,6 +90,8 @@ eval - Evaluate Codes
 - [Ficher](https://github.com/anasty17/mirror-leech-telegram-bot)
 - [Uptobox](https://github.com/sinoobie/noobie-mirror)
 - [FileCrypt Scraper](https://github.com/bipinkrish/filecrypt-bypass)
+- [XpShort](https://github.com/JohnWickKeanue/xpshort-bypass)
+- [HTPMovies Scraper](https://github.com/JohnWickKeanue/htplinkbypass)
 - [LK21](https://github.com/zevtyardt/lk21)
 - [BIFM API](https://git.gay/a/bifm)
 - [Multi-AIO](https://github.com/bypass-vip/bypass.vip)
@@ -98,10 +101,10 @@ eval - Evaluate Codes
 ### ⚛️ Deploying on Heroku
 - Click on the Button below to deploy this Bot to Heroku
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/missemily2022/UltimateBypass2_Bot)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/missemily22/MultiFunctionBot)
 
 ## Note:
 - I will soon add other Deployment Methods!
 
 ### Credits
-- Bot is purely based on [Disha Patel](https://github.com/dishapatel010) [MMBot](https://github.com/dishapatel010/mmbot).
+- Bot is purely based on [Disha Patel](https://github.com/dishapatel010) [MMBot](https://github.com/dishapatel010/mmbot)

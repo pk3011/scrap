@@ -22,7 +22,7 @@ def index_scraper(payload, url):
     resp = client.post(url, data=payload)
     time.sleep(1)
     if resp.status_code == 401:
-        return "Could not Acess your Entered URL!"
+        return "Could not Access your Entered URL!"
     try:
         resp2 = json.loads(b64decode(resp.text[::-1][24:-20]).decode("utf-8"))
     except BaseException:
@@ -46,7 +46,7 @@ def index_scraper(payload, url):
                 pass
             else:
                 ddl = url + urllib.parse.quote(file_name)
-                res += f"• {file_name}:-\n{ddl}\n\n"
+                res += f"• {file_name}:-<br>{ddl}<br><br>"
         return res
 
 
@@ -63,10 +63,36 @@ def index_scrap(url):
     return msg
 
 
-def psa_scrap(url):
+def atishmkv_scrap(url):
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
-        resp = client.get(api, json={"type": "psa_scrap", "url": url})
+        resp = client.post(api, json={"type": "atishmkv_scrap", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "API UnResponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
+def cinevez_scrap(url):
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "cinevez_scrap", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "API UnResponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
+def cinevood_scrap(url):
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "cinevood_scrap", "url": url})
         res = resp.json()
     except BaseException:
         return "API UnResponsive / Invalid Link!"
@@ -80,6 +106,97 @@ def filecrypt_scrap(url):
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "filecrypt_scrap", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "API UnResponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
+def htpmovies_scrap(url):
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "htpmovies_scrap", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "API UnResponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
+def igggames_scrape(url):
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "igggames_scrape", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "API UnResponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
+def moviesdrama_scrap(url):
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "moviesdrama_scrap", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "API UnResponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
+def magnet_scrap(url):
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "magnet_scrap", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "API UnResponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
+def olamovies_scrap(url):
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "olamovies_scrap", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "API UnResponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
+def psa_scrap(url):
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.get(api, json={"type": "psa_scrap", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "API UnResponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
+def toonworld4all_scrap(url):
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "toonworld4all_scrap", "url": url})
         res = resp.json()
     except BaseException:
         return "API UnResponsive / Invalid Link!"

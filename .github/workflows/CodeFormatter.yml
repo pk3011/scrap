@@ -4,9 +4,9 @@ jobs:
   PEP8:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
       - name: Setup Python
-        uses: actions/setup-python@v4.2.0
+        uses: actions/setup-python@v4.3.0
         with:
           python-version: 3.9
       - name: Install Python lint libraries
@@ -24,7 +24,7 @@ jobs:
         run: |
           isort bot/modules/ bot/helpers/ bot/__init__.py
           black bot/modules/ bot/helpers/ bot/__init__.py
-      - uses: stefanzweifel/git-auto-commit-action@v4.14.1
+      - uses: stefanzweifel/git-auto-commit-action@v4.15.2
         with:
           commit_message: "Auto: Code Formatted"
           commit_options: "--no-verify"

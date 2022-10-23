@@ -1,6 +1,11 @@
 import re
 
 
+def is_a_url(url: str):
+    url = re.match(r"((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*", url)
+    return bool(url)
+
+
 def is_gdtot_link(url: str):
     url = re.match(r"https?://.+\.gdtot\.\S+", url)
     return bool(url)
@@ -28,7 +33,7 @@ def is_sharer_link(url: str):
 
 
 def is_drivehubs_link(url: str):
-    return "drivehubs.xyz" in url
+    return "drivehubs." in url
 
 
 def is_artstation_link(url: str):
