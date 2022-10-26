@@ -21,6 +21,7 @@ from bot.helpers.utilities.lists import (
     linkvertise_list,
     sbembed_list,
     scrape_list,
+    shst_list,
     yandisk_list,
 )
 from bot.helpers.utilities.regex import (
@@ -100,7 +101,7 @@ async def help(bot, update):
     # tuv += "\n• <i>Use /psa to Extract Download Links from psa.pm URLs</i>"
     tuv += "\n• <i>Use /filecrypt to Extract Download Links from FileCrypt URLs</i>"
     tuv += "\n• <i>Use /scrape to Extract Direct Links from Supported Sites</i>"
-    tuv += "\n• <i>Use /gd to extract GDrive Links from GDTot, AniDrive, DriveRoot, DriveFlix, IndiDrive, DriveHub, AppDrive, DriveApp, DriveAce, GdFlix, DriveLinks, DriveBit, DriveSharer, DrivePro, HubDrive, KatDrive, Kolop, DriveFire, DriveBuzz, GaDrive, JioDrive, Sharer.pw, Drivehubs.xyz & Pahe</i>"
+    tuv += "\n• <i>Use /gd to extract GDrive Links from GDTot, AniDrive, DriveRoot, DriveFlix, IndiDrive, DriveHub, AppDrive, DriveApp, DriveAce, GdFlix, DriveLinks, DriveBit, DriveSharer, DrivePro, HubDrive, KatDrive, Kolop, DriveFire, DriveBuzz, GaDrive, JioDrive, Sharer.pw, Drivehubs & Pahe</i>"
     tuv += "\n\n<b>Important:<i> Bot does not support Reply to Link Support. Only command followed by link is supported.</i></b>\n"
     tuv += "\n\n<b>Made with Love by Miss Emily</b> (https://github.com/missemily2022)"
     await update.reply_text(text=tuv, disable_web_page_preview=True, quote=True)
@@ -108,7 +109,8 @@ async def help(bot, update):
 
 @Client.on_message(filters.command(CMD.DIRT))
 async def dirt(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
@@ -116,9 +118,8 @@ async def dirt(bot, update):
     uid = f"<code>{update.from_user.id}</code>"
     is_artstation = is_artstation_link(url)
     if is_artstation:
-        id = update.matches[0].group(1)
         link_type = "ArtStation"
-        res = direct_link.artstation(id)
+        res = direct_link.artstation(url)
     elif "mdisk." in url:
         link_type = "MDisk"
         res = direct_link.mdisk(url)
@@ -265,11 +266,11 @@ async def dirt(bot, update):
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b><i>Could not generate Direct Link for your URL</i></b>"
         await update.reply_text(text=err, disable_web_page_preview=True, quote=True)
         return
-    LOGGER.info(f" URL Received : {link_type} - {url}")
+    LOGGER.info(f" Received : {cmd} - {link_type} - {url}")
     # log_msg = await update.forward(chat_id=BIN_CHANNEL)
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n<b>Link Type</b> : <i>{link_type}</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
-    LOGGER.info(f" Destination : {res}")
+    LOGGER.info(f" Destination : {cmd} - {link_type} - {res}")
     if link_type == "GoFile":
         xyz = f"<b><i>Sorry! GoFile Bypass is not supported anymore</i></b>"
     elif link_type == "MegaUp":
@@ -291,7 +292,8 @@ async def dirt(bot, update):
 
 @Client.on_message(filters.command(CMD.BYPS))
 async def byps(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
@@ -321,7 +323,7 @@ async def byps(bot, update):
     elif "ouo.io" in url or "ouo.press" in url:
         link_type = "Ouo"
         res = bypasser.ouo(url)
-    elif "shorte.st" in url:
+    elif any(x in url for x in shst_list):
         link_type = "Shorte.st"
         res = bypasser.shorte(url)
     elif "rocklinks." in url:
@@ -368,226 +370,238 @@ async def byps(bot, update):
                 link_type = "Script Generic"
                 res = bypasser.script(url)
             except BaseException:
-                err = "<b><i>Could not find Bypass for your URL</i></b>"
+                err = "<b><i>Could not find Bypass for your URL!</i></b>"
                 await update.reply_text(
                     text=err, disable_web_page_preview=True, quote=True
                 )
                 return
         else:
-            err = "<b><i>Could not find your URL</i></b>"
+            err = "<b><i>Could not find your URL!</i></b>"
             await update.reply_text(text=err, disable_web_page_preview=True, quote=True)
             return
-    LOGGER.info(f" URL Received : {link_type} - {url}")
+    LOGGER.info(f" Received : {cmd} - {link_type} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n<b>Link Type</b> : <i>{link_type}</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
-    LOGGER.info(f" Destination : {res}")
+    LOGGER.info(f" Destination : {cmd} - {link_type} - {res}")
     xyz = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b><i>Your Bypassed Result is :\n</i></b>{res}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.AIO))
 async def aio(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     res = bypasser.multi_aio(url)
-    LOGGER.info(f" Destination : {res}")
+    LOGGER.info(f" Destination : {cmd} - {res}")
     xyz = f"<b>Bypassed Link :\n</b>{res}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.BIFM))
 async def bif(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     res = bypasser.bifm(url)
-    LOGGER.info(f" Destination : {res}")
+    LOGGER.info(f" Destination : {cmd} - {res}")
     xyz = f"<b>Bypassed Link :\n</b>{res}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.DPLK))
 async def dpkl(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>DropLinks</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     res = bypasser.droplink(url)
-    LOGGER.info(f" Destination : {res}")
+    LOGGER.info(f" Destination : {cmd} - {res}")
     xyz = f"<b>Bypassed Link :\n</b>{res}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.GPLK))
 async def gpkl(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>GPLinks</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     res = bypasser.gplinks(url)
-    LOGGER.info(f" Destination : {res}")
+    LOGGER.info(f" Destination : {cmd} - {res}")
     xyz = f"<b>Bypassed Link :\n</b>{res}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.LINKV))
 async def linkv(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Linkvertise</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     res = bypasser.linkvertise(url)
-    LOGGER.info(f" Destination : {res}")
+    LOGGER.info(f" Destination : {cmd} - {res}")
     xyz = f"<b>Bypassed Link :\n</b>{res}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.ADFL))
 async def adfl(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>AdFly</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     res = bypasser.adfly(url)
-    LOGGER.info(f" Destination : {res}")
+    LOGGER.info(f" Destination : {cmd} - {res}")
     xyz = f"<b>Bypassed Link :\n</b>{res}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.SRGN))
 async def srgn(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Sirigan.my.id</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     res = bypasser.sirigan(url)
-    LOGGER.info(f" Destination : {res}")
+    LOGGER.info(f" Destination : {cmd} - {res}")
     xyz = f"<b>Bypassed Link :\n</b>{res}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.OUOT))
 async def ouot(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Ouo</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     res = bypasser.ouo(url)
-    LOGGER.info(f" Destination : {res}")
+    LOGGER.info(f" Destination : {cmd} - {res}")
     xyz = f"<b>Bypassed Link :\n</b>{res}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.SHST))
 async def shst(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Shorte.st</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     res = bypasser.shorte(url)
-    LOGGER.info(f" Destination : {res}")
+    LOGGER.info(f" Destination : {cmd} - {res}")
     xyz = f"<b>Bypassed Link :\n</b>{res}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.RKLK))
 async def rklk(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>RockLinks</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     res = bypasser.rocklinks(url)
-    LOGGER.info(f" Destination : {res}")
+    LOGGER.info(f" Destination : {cmd} - {res}")
     xyz = f"<b>Bypassed Link :\n</b>{res}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.INDX))
 async def indx(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Bhadoo Index</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     res = index_scrap(url)
     des_url = telegraph_paste(res)
     time.sleep(5)
-    LOGGER.info(f" Destination : {des_url}")
+    LOGGER.info(f" Destination : {cmd} - {des_url}")
     xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.PSAM))
 async def psam(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>PSA</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     """ des_url = psa_scrap(url)
     time.sleep(5)
-    LOGGER.info(f" Destination : {des_url}")
+    LOGGER.info(f" Destination : {cmd} - {des_url}")
     xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}" """
     xyz = "<b>PSA Scraper has been patched for now!</b>"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
@@ -595,49 +609,52 @@ async def psam(bot, update):
 
 @Client.on_message(filters.command(CMD.FLCY))
 async def flcy(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>FileCrypt</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     des_url = filecrypt_scrap(url)
     time.sleep(5)
-    LOGGER.info(f" Destination : {des_url}")
+    LOGGER.info(f" Destination : {cmd} - {des_url}")
     xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.MGNT))
 async def mgnt(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Magnet Scraping</i>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     des_url = magnet_scrap(url)
     time.sleep(5)
-    LOGGER.info(f" Destination : {des_url}")
+    LOGGER.info(f" Destination : {cmd} - {des_url}")
     xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
 
 
 @Client.on_message(filters.command(CMD.SCRP))
 async def scrp(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     if (
         "workers.dev" in url
         or "0:/" in url
@@ -652,74 +669,74 @@ async def scrp(bot, update):
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         res = index_scrap(url)
         des_url = telegraph_paste(res)
-        LOGGER.info(f" Destination : {des_url}")
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "atishmkv." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>AtishMKV</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         des_url = atishmkv_scrap(url)
-        LOGGER.info(f" Destination : {des_url}")
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "cinevez." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Cinevez</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         des_url = cinevez_scrap(url)
-        LOGGER.info(f" Destination : {des_url}")
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "cinevood." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Cinevood</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         des_url = cinevood_scrap(url)
-        LOGGER.info(f" Destination : {des_url}")
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "filecrypt." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Filecrypt</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         des_url = filecrypt_scrap(url)
-        LOGGER.info(f" Destination : {des_url}")
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "htpmovies." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>HTP Movies</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         des_url = htpmovies_scrap(url)
-        LOGGER.info(f" Destination : {des_url}")
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "igg-games." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>IGG Games</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         des_url = igggames_scrape(url)
-        LOGGER.info(f" Destination : {des_url}")
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "moviesdrama." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Movies Drama</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         des_url = moviesdrama_scrap(url)
-        LOGGER.info(f" Destination : {des_url}")
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "olamovies." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>OlaMovies</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         des_url = olamovies_scrap(url)
-        LOGGER.info(f" Destination : {des_url}")
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "psa." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>PSA</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         """ des_url = psa_scrap(url)
-        LOGGER.info(f" Destination : {des_url}")
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}" """
         xyz = "<b>PSA Scraper has been patched for now!</b>"
     elif "toonworld4all." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>ToonWorld4all</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         des_url = toonworld4all_scrap(url)
-        LOGGER.info(f" Destination : {des_url}")
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "pahe." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Pahe</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         res = pahe(url)
-        LOGGER.info(f" Destination : {res}")
+        LOGGER.info(f" Destination : {cmd} - {res}")
         xyz = f"<b>Direct Gdrive Link :\n</b>{res}"
     elif any(x in url for x in yandisk_list):
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>This Link is Supported by the Direct Link Generator</b>\n\n<i>Use it with /direct command followed by Link</i>"
@@ -752,13 +769,14 @@ async def scrp(bot, update):
 
 @Client.on_message(filters.command(CMD.SHRT))
 async def shrt(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
     res1 = shortener.bitly(url)
@@ -771,7 +789,7 @@ async def shrt(bot, update):
     res8 = shortener.clickru(url)
     res9 = shortener.clilp(url)
     LOGGER.info(
-        f"Destination : {res1} | {res2} | {res3} | {res4} | {res5} | {res6} | {res7} | {res8} | {res9}"
+        f" Destination : {res1} | {res2} | {res3} | {res4} | {res5} | {res6} | {res7} | {res8} | {res9}"
     )
     xyz = f"<u><b>Shortened URLs :\n\n</b></u>{res1}\n{res2}\n{res3}\n{res4}\n{res5}\n{res6}\n{res7}\n{res8}\n{res9}\n\n<b><i>NOTE:</i></b>\n<i>All the Shortened URLs redirect to the same URL as you entered and all of these links are Ad-Free.</i>"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
@@ -779,13 +797,14 @@ async def shrt(bot, update):
 
 @Client.on_message(filters.command(CMD.GDFS))
 async def gdfs(bot, update):
-    url = update.matches[0].group(0)
+    cmd = update.text.split(" ", maxsplit=1)[0]
+    url = update.text.split(" ", maxsplit=1)[1]
     valid_url = is_a_url(url)
     if valid_url is not True:
         return "You did not seem to have entered an URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
-    LOGGER.info(f" URL Received : {url}")
+    LOGGER.info(f" Received : {cmd} - {url}")
     is_gdtot = is_gdtot_link(url)
     is_drivehubs = is_drivehubs_link(url)
     is_unified = is_unified_link(url)
@@ -795,37 +814,37 @@ async def gdfs(bot, update):
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>GDTot</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         res = gdtot(url)
-        LOGGER.info(f" Destination : {res}")
+        LOGGER.info(f" Destination : {cmd} - {res}")
         xyz = f"<b>Direct Gdrive Link :\n</b>{res}"
     elif is_drivehubs:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>DriveHubs</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         res = drivehubs(url)
-        LOGGER.info(f" Destination : {res}")
+        LOGGER.info(f" Destination : {cmd} - {res}")
         xyz = f"<b>Direct Gdrive Link :\n</b>{res}"
     elif is_unified:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>AppDrive Look-Alike</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         res = unified(url)
-        LOGGER.info(f" Destination : {res}")
+        LOGGER.info(f" Destination : {cmd} - {res}")
         xyz = f"<b>Direct Gdrive Link :\n</b>{res}"
     elif is_udrive:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>HubDrive Look-Alike</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         res = udrive(url)
-        LOGGER.info(f" Destination : {res}")
+        LOGGER.info(f" Destination : {cmd} - {res}")
         xyz = f"<b>Direct Gdrive Link :\n</b>{res}"
     elif is_sharer:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Sharer.pw</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         res = sharerpw(url)
-        LOGGER.info(f" Destination : {res}")
+        LOGGER.info(f" Destination : {cmd} - {res}")
         xyz = f"<b>Direct Gdrive Link :\n</b>{res}"
     elif "pahe." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Pahe</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         res = pahe(url)
-        LOGGER.info(f" Destination : {res}")
+        LOGGER.info(f" Destination : {cmd} - {res}")
         xyz = f"<b>Direct Gdrive Link :\n</b>{res}"
     elif "drive.google.com" in url:
         xyz = "You have entered a Google Drive Link!"

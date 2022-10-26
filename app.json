@@ -30,7 +30,7 @@
       },
 	  "AUTH_USER": {
           "description": "Your Telegram User ID",
-		  "value":"",
+		  "value":"-1",
           "required": true
       },
 	  "BOT_USERNAME": {
@@ -124,11 +124,14 @@
           "required": false
       }
   },
-  "buildpacks": [{
+  "stack": "container",
+  "buildpacks": [
+    {
       "url": "heroku/python"
-    }],
+    }
+  ],
   "formation": {
-      "worker": {
+      "web": {
           "quantity": 1,
           "size": "free"
       }

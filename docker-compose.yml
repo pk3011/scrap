@@ -1,7 +1,32 @@
-version: "3.3"
+version: "3.9"
 
 services:
-  app:
-    build: .
-    command: bash start.sh
-    restart: on-failure
+  multibot:
+    image: ghcr.io/missemily22/multifunctionbot:main
+    container_name: multibot
+    environment:
+      - CONFIG_FILE_URL = ${CONFIG_FILE_URL}
+      - API_ID = ${API_ID}
+      - API_HASH = ${API_HASH}
+      - BOT_TOKEN = ${BOT_TOKEN}
+      - BOT_USERNAME = ${BOT_USERNAME}
+      - BIFM_URL = ${BIFM_URL}
+      - EMILY_API_URL = ${EMILY_API_URL}
+      - UPTOBOX_TOKEN = ${UPTOBOX_TOKEN}
+      - AUTH_USER = ${AUTH_USER}
+      - MAX_MESSAGE_LENGTH = ${MAX_MESSAGE_LENGTH}
+      - UNIFIED_EMAIL = ${UNIFIED_EMAIL}
+      - UNIFIED_PASS = ${UNIFIED_PASS}
+      - GDTOT_CRYPT = ${GDTOT_CRYPT}
+      - HUBDRIVE_CRYPT = ${HUBDRIVE_CRYPT}
+      - KATDRIVE_CRYPT = ${KATDRIVE_CRYPT}
+      - KOLOP_CRYPT = ${KOLOP_CRYPT}
+      - DRIVEFIRE_CRYPT = ${DRIVEFIRE_CRYPT}
+      - DRIVEBUZZ_CRYPT = ${DRIVEBUZZ_CRYPT}
+      - GADRIVE_CRYPT = ${GADRIVE_CRYPT}
+      - JIODRIVE_CRYPT = ${JIODRIVE_CRYPT}
+      - Sharerpw_XSRF = ${Sharerpw_XSRF}
+      - Sharerpw_laravel = ${Sharerpw_laravel}
+    ports:
+      - 8080:8080
+    restart: unless-stopped

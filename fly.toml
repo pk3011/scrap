@@ -1,0 +1,62 @@
+
+# Set app name below, replace APP-NAME
+
+app = "APP-NAME"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[env]
+  API_ID = 0
+  API_HASH = ""
+  BOT_TOKEN = ""
+  BOT_USERNAME = ""
+  BIFM_URL = "https://bifm.tacohitbox.com/api/bypass?url"
+  EMILY_API_URL = "https://emily-api.fly.dev/api"
+  UPTOBOX_TOKEN = ""
+  AUTH_USER = -1
+  MAX_MESSAGE_LENGTH = 4096
+  UNIFIED_EMAIL = ""
+  UNIFIED_PASS = ""
+  GDTOT_CRYPT = ""
+  HUBDRIVE_CRYPT = ""
+  KATDRIVE_CRYPT = ""
+  KOLOP_CRYPT = ""
+  DRIVEFIRE_CRYPT = ""
+  DRIVEBUZZ_CRYPT = ""
+  GADRIVE_CRYPT = ""
+  JIODRIVE_CRYPT = ""
+  Sharerpw_XSRF = ""
+  Sharerpw_laravel = ""
+
+# No need to touch below
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = true
+
+[[services]]
+  http_checks = []
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"

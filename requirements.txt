@@ -1,5 +1,6 @@
 beautifulsoup4
 bs4
+chromedriver_autoinstaller
 cloudscraper
 colorama
 flask
@@ -7,6 +8,7 @@ flask_restful
 lk21
 lxml
 pyrogram
+python-dotenv
 python-telegram-bot
 requests
 selenium
