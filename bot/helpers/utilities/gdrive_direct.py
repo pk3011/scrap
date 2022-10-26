@@ -237,7 +237,7 @@ def sharerpw(url: str, forced_login=False) -> str:
 
 def drivehubs(url: str) -> str:
     chromedriver_autoinstaller.install()
-    
+
     os.chmod("/usr/src/app/chromedriver", 755)
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
@@ -258,7 +258,7 @@ def drivehubs(url: str) -> str:
 
 def pahe(url: str) -> str:
     chromedriver_autoinstaller.install()
-    
+
     AGREE_BUTTON = "//*[contains(text(), 'AGREE')]"
     LINK_TYPE = ["//*[contains(text(), 'GD')]"]
     GENERATE = "#generater > img"

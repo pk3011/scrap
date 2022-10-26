@@ -83,7 +83,7 @@ bypass_list = [
     "ouo.io",
     "ouo.press",
     "shorte.st",
-    "sh.st", 
+    "sh.st",
     "clkmein.com",
     "corneey.com",
     "gestyy.com",
@@ -114,7 +114,7 @@ scrape_list = [
 ]
 shst_list = [
     "shorte.st",
-    "sh.st", 
+    "sh.st",
     "clkmein.com",
     "corneey.com",
     "gestyy.com",
