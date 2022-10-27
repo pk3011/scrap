@@ -1,9 +1,9 @@
 import time
+from re import search
 
 import cloudscraper
 from pyrogram import Client, __version__, filters
 from pyrogram.raw.all import layer
-from re import search
 
 from bot import CMD, LOGGER, Config
 from bot.helpers.utilities import bypasser, direct_link, shortener
@@ -26,6 +26,7 @@ from bot.helpers.utilities.lists import (
     yandisk_list,
 )
 from bot.helpers.utilities.regex import (
+    URL_REGEX,
     is_a_url,
     is_artstation_link,
     is_drivehubs_link,
@@ -34,7 +35,6 @@ from bot.helpers.utilities.regex import (
     is_sharer_link,
     is_udrive_link,
     is_unified_link,
-    URL_REGEX,
 )
 from bot.helpers.utilities.scraper import (
     atishmkv_scrap,
@@ -118,9 +118,13 @@ async def dirt(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -313,9 +317,13 @@ async def byps(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -422,9 +430,13 @@ async def aio(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -452,9 +464,13 @@ async def bif(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -482,9 +498,13 @@ async def dpkl(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -512,9 +532,13 @@ async def gpkl(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -542,9 +566,13 @@ async def linkv(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -572,9 +600,13 @@ async def adfl(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -602,9 +634,13 @@ async def srgn(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -632,9 +668,13 @@ async def ouot(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -662,9 +702,13 @@ async def shst(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -692,9 +736,13 @@ async def rklk(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -722,9 +770,13 @@ async def indx(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -754,9 +806,13 @@ async def psam(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -786,9 +842,13 @@ async def flcy(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -817,9 +877,13 @@ async def mgnt(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -848,9 +912,13 @@ async def scrp(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -982,9 +1050,13 @@ async def shrt(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
@@ -1022,9 +1094,13 @@ async def gdfs(bot, update):
         url = msg_args[1]
     elif reply_to is not None:
         try:
-           reply_text = search(URL_REGEX, reply_to.text)[0]
-        except:
-           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+            reply_text = search(URL_REGEX, reply_to.text)[0]
+        except BaseException:
+            reply_text = (
+                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                .replace("\\", "")
+                .split("*")[0]
+            )
         url = reply_text.strip()
         cmd = update.text.split(" ", maxsplit=1)[0]
     else:
