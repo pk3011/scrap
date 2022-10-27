@@ -1,5 +1,6 @@
 import re
 
+URL_REGEX = r"(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+"
 
 def is_a_url(url: str):
     url = re.match(

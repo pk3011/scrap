@@ -21,7 +21,7 @@
 - `Sharerpw_XSRF` Put your Sharer XSRF Token
 - `Sharerpw_laravel` Put your Sharer Laravel Session
 - `UPTOBOX_TOKEN` Put your UptoBox Account Token (Free Account works too!)
-- `EMILY_API_URL` Your [Emily API](https://github.com/missemily2022/Emily-API) instance Url. Default to `https://emily-api.fly.dev/api`
+- `EMILY_API_URL` Your [Emily API](https://github.com/missemily2022/Emily-API) instance Url. Default to `https://api.emilyx.in/api`
 ---
 
 <b>NOTE: Fill the above values in <code>config.env</code> or use them as Environment Variables. </b><br>

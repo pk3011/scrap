@@ -45,7 +45,7 @@
 	  },
 	  "EMILY_API_URL": {
           "description": "Your Emily Bypass API Instance URL(Use Default)",
-		  "value":"https://emily-api.fly.dev/api",
+		  "value":"https://api.emilyx.in/api",
           "required": true
 	  },
 	  "TELEGRAPH_NAME": {

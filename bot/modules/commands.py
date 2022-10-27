@@ -3,6 +3,7 @@ import time
 import cloudscraper
 from pyrogram import Client, __version__, filters
 from pyrogram.raw.all import layer
+from re import search
 
 from bot import CMD, LOGGER, Config
 from bot.helpers.utilities import bypasser, direct_link, shortener
@@ -33,6 +34,7 @@ from bot.helpers.utilities.regex import (
     is_sharer_link,
     is_udrive_link,
     is_unified_link,
+    URL_REGEX,
 )
 from bot.helpers.utilities.scraper import (
     atishmkv_scrap,
@@ -109,11 +111,23 @@ async def help(bot, update):
 
 @Client.on_message(filters.command(CMD.DIRT))
 async def dirt(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     is_artstation = is_artstation_link(url)
@@ -292,11 +306,23 @@ async def dirt(bot, update):
 
 @Client.on_message(filters.command(CMD.BYPS))
 async def byps(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     if "droplink." in url or "droplinks." in url:
@@ -389,11 +415,23 @@ async def byps(bot, update):
 
 @Client.on_message(filters.command(CMD.AIO))
 async def aio(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -407,11 +445,23 @@ async def aio(bot, update):
 
 @Client.on_message(filters.command(CMD.BIFM))
 async def bif(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -425,11 +475,23 @@ async def bif(bot, update):
 
 @Client.on_message(filters.command(CMD.DPLK))
 async def dpkl(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -443,11 +505,23 @@ async def dpkl(bot, update):
 
 @Client.on_message(filters.command(CMD.GPLK))
 async def gpkl(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -461,11 +535,23 @@ async def gpkl(bot, update):
 
 @Client.on_message(filters.command(CMD.LINKV))
 async def linkv(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -479,11 +565,23 @@ async def linkv(bot, update):
 
 @Client.on_message(filters.command(CMD.ADFL))
 async def adfl(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -497,11 +595,23 @@ async def adfl(bot, update):
 
 @Client.on_message(filters.command(CMD.SRGN))
 async def srgn(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -515,11 +625,23 @@ async def srgn(bot, update):
 
 @Client.on_message(filters.command(CMD.OUOT))
 async def ouot(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -533,11 +655,23 @@ async def ouot(bot, update):
 
 @Client.on_message(filters.command(CMD.SHST))
 async def shst(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -551,11 +685,23 @@ async def shst(bot, update):
 
 @Client.on_message(filters.command(CMD.RKLK))
 async def rklk(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -569,11 +715,23 @@ async def rklk(bot, update):
 
 @Client.on_message(filters.command(CMD.INDX))
 async def indx(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -589,11 +747,23 @@ async def indx(bot, update):
 
 @Client.on_message(filters.command(CMD.PSAM))
 async def psam(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -609,11 +779,23 @@ async def psam(bot, update):
 
 @Client.on_message(filters.command(CMD.FLCY))
 async def flcy(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -628,11 +810,23 @@ async def flcy(bot, update):
 
 @Client.on_message(filters.command(CMD.MGNT))
 async def mgnt(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -647,11 +841,23 @@ async def mgnt(bot, update):
 
 @Client.on_message(filters.command(CMD.SCRP))
 async def scrp(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -769,11 +975,23 @@ async def scrp(bot, update):
 
 @Client.on_message(filters.command(CMD.SHRT))
 async def shrt(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
@@ -797,11 +1015,23 @@ async def shrt(bot, update):
 
 @Client.on_message(filters.command(CMD.GDFS))
 async def gdfs(bot, update):
-    cmd = update.text.split(" ", maxsplit=1)[0]
-    url = update.text.split(" ", maxsplit=1)[1]
+    msg_args = update.text.split(" ", maxsplit=1)
+    reply_to = update.reply_to_message
+    if len(msg_args) > 1:
+        cmd = msg_args[0]
+        url = msg_args[1]
+    elif reply_to is not None:
+        try:
+           reply_text = search(URL_REGEX, reply_to.text)[0]
+        except:
+           reply_text = search(URL_REGEX, reply_to.caption_markdown_v2)[0].replace("\\","").split("*")[0]
+        url = reply_text.strip()
+        cmd = update.text.split(" ", maxsplit=1)[0]
+    else:
+        return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
-    if valid_url is not True:
-        return "You did not seem to have entered an URL!"
+    if valid_url is not True or url is None:
+        return "You did not seem to have entered a valid URL!"
     uname = update.from_user.mention
     uid = f"<code>{update.from_user.id}</code>"
     LOGGER.info(f" Received : {cmd} - {url}")
