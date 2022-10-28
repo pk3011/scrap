@@ -3,7 +3,6 @@ bot/UltimateBypass.session
 bot/UltimateBypass.session-journal
 bot/MultiFunction.session
 bot/MultiFunction.session-journal
-bot/helpers/translations/__pycache__/*
 bot/helpers/utilities/__pycache__/*
 bot/modules/__pycache__/*
 __pycache__/*
@@ -12,3 +11,4 @@ __pycache__/*
 .idea
 .idea/*
 venv/*
+git-filter-repo
