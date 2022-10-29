@@ -76,8 +76,8 @@ bypass_list = [
     "gp.link",
     "adfly.",
     "adf.ly",
-    "gyanilinks",
-    "gyanilink",
+    "gyanilinks.",
+    "gtlinks.",
     "htpmovies.art/exit.php?url",
     "sirigan.my.id",
     "ouo.io",
@@ -99,6 +99,7 @@ bypass_list = [
     "shortingly.",
     "tnlink.",
     "xpshort.",
+    "adrinolinks.",
 ]
 scrape_list = [
     "atishmkv.",
@@ -108,6 +109,7 @@ scrape_list = [
     "htpmovies.",
     "igg-games.",
     "moviesdrama.",
+    "sharespark.",
     "olamovies.",
     "psa.",
     "toonworld4all.",

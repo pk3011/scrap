@@ -47,6 +47,7 @@ from bot.helpers.utilities.scraper import (
     magnet_scrap,
     moviesdrama_scrap,
     olamovies_scrap,
+    sharespark_scrap,
     toonworld4all_scrap,
 )
 
@@ -104,7 +105,6 @@ async def help(bot, update):
     tuv += "\n• <i>Use /filecrypt to Extract Download Links from FileCrypt URLs</i>"
     tuv += "\n• <i>Use /scrape to Extract Direct Links from Supported Sites</i>"
     tuv += "\n• <i>Use /gd to extract GDrive Links from GDTot, AniDrive, DriveRoot, DriveFlix, IndiDrive, DriveHub, AppDrive, DriveApp, DriveAce, GdFlix, DriveLinks, DriveBit, DriveSharer, DrivePro, HubDrive, KatDrive, Kolop, DriveFire, DriveBuzz, GaDrive, JioDrive, Sharer.pw, Drivehubs & Pahe</i>"
-    tuv += "\n\n<b>Important:<i> Bot does not support Reply to Link Support. Only command followed by link is supported.</i></b>\n"
     tuv += "\n\n<b>Made with Love by Miss Emily</b> (https://github.com/missemily2022)"
     await update.reply_text(text=tuv, disable_web_page_preview=True, quote=True)
 
@@ -126,7 +126,7 @@ async def dirt(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -325,7 +325,7 @@ async def byps(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -364,7 +364,10 @@ async def byps(bot, update):
         link_type = "RockLinks"
         res = bypasser.rocklinks(url)
     elif "gtlinks." in url:
-        link_type = "GyanLinks"
+        link_type = "GTLinks"
+        res = bypasser.gtlinks(url)
+    elif "gyanilinks." in url:
+        link_type = "GyaniLinks"
         res = bypasser.gyanilinks(url)
     elif "shareus." in url:
         link_type = "Shareus"
@@ -378,6 +381,9 @@ async def byps(bot, update):
     elif "xpshort." in url:
         link_type = "XpShort"
         res = bypasser.xpshort(url)
+    elif "adrinolinks." in url:
+        link_type = "AdrinoLinks"
+        res = bypasser.adrinolinks(url)
     elif any(x in url for x in yandisk_list):
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>This Link is Supported by the Direct Link Generator</b>\n\n<i>Use it with /direct command followed by Link</i>"
         await update.reply_text(text=err, disable_web_page_preview=True, quote=True)
@@ -438,7 +444,7 @@ async def aio(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -472,7 +478,7 @@ async def bif(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -506,7 +512,7 @@ async def dpkl(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -540,7 +546,7 @@ async def gpkl(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -574,7 +580,7 @@ async def linkv(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -608,7 +614,7 @@ async def adfl(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -642,7 +648,7 @@ async def srgn(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -676,7 +682,7 @@ async def ouot(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -710,7 +716,7 @@ async def shst(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -744,7 +750,7 @@ async def rklk(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -778,7 +784,7 @@ async def indx(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -814,7 +820,7 @@ async def psam(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -850,7 +856,7 @@ async def flcy(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -885,7 +891,7 @@ async def mgnt(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -920,7 +926,7 @@ async def scrp(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -1006,6 +1012,12 @@ async def scrp(bot, update):
         des_url = toonworld4all_scrap(url)
         LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
+    elif "sharespark." in url:
+        abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Sharespark</i>"
+        await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
+        des_url = sharespark_scrap(url)
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
+        xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "pahe." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Pahe</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
@@ -1058,7 +1070,7 @@ async def shrt(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)
@@ -1102,7 +1114,7 @@ async def gdfs(bot, update):
                 .split("*")[0]
             )
         url = reply_text.strip()
-        cmd = update.text.split(" ", maxsplit=1)[0]
+        cmd = msg_args[0]
     else:
         return "Bot could not retrieve your URL!"
     valid_url = is_a_url(url)

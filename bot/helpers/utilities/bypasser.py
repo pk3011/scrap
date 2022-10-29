@@ -27,6 +27,22 @@ def adfly(url):
         return res["msg"]
 
 
+def adrinolinks(url):
+    resp = requests.get(url)
+    if resp.status_code == 404:
+        return "File not found/The link you entered is wrong!"
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "adrinolinks", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "Emily API Unresponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
 def bifm(url):
     client = cloudscraper.create_scraper(allow_brotli=False)
     headers = {
@@ -68,6 +84,22 @@ def gplinks(url):
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "gplinks", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "Emily API Unresponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
+def gtlinks(url):
+    resp = requests.get(url)
+    if resp.status_code == 404:
+        return "File not found/The link you entered is wrong!"
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "gtlinks", "url": url})
         res = resp.json()
     except BaseException:
         return "Emily API Unresponsive / Invalid Link!"
