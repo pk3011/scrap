@@ -4,9 +4,9 @@ import time
 import cloudscraper
 import requests
 from bs4 import BeautifulSoup
+from PyBypass import bypasser as pybyp
 
 from bot import Config
-from PyBypass import bypasser as pybyp
 
 dom = Config.EMILY_API_URL
 api = f"{dom}/bypass"

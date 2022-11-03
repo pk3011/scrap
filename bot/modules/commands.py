@@ -46,8 +46,8 @@ from bot.helpers.utilities.scraper import (
     index_scrap,
     magnet_scrap,
     moviesdrama_scrap,
-    privatemoviez_scrape,
     olamovies_scrap,
+    privatemoviez_scrape,
     sharespark_scrap,
     toonworld4all_scrap,
 )

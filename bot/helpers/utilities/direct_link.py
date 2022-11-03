@@ -7,15 +7,13 @@ import cloudscraper
 import requests
 from bs4 import BeautifulSoup
 from lk21 import Bypass
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
 
 from bot import LOGGER, Config
 from bot.helpers.utilities.regex import is_sendcm_folder_link
-
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
-
 
 dom = Config.EMILY_API_URL
 api = f"{dom}/direct"
@@ -228,14 +226,14 @@ def hubcloud(url):
     verify_button2 = '//*[@id="verify_button2"]'
     verify_button = '//*[@id="verify_button"]'
     two_steps_btn = '//a[@class="rdr_btn block"]'
-    workers = '/html/body/center/div[2]/div[1]/h2/a[1]'
+    workers = "/html/body/center/div[2]/div[1]/h2/a[1]"
     bgsora = '//*[@id="bgsora"]'
 
     # Selenium Set-Up
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
 
     # Scrapping
     wd = webdriver.Chrome(options=chrome_options)
@@ -243,16 +241,22 @@ def hubcloud(url):
     WebDriverWait(wd, 8).until(ec.element_to_be_clickable((By.XPATH, bgsora))).click()
     sleep(8)
     flink = wd.current_url
-    pattern1 = re.compile(r'\bhttps?://.*(hubcloud)\S+', re.IGNORECASE)
-    pattern2 = re.compile(r'\bhttps?://.*(newsongs)\S+', re.IGNORECASE)
-    pattern3 = re.compile(r'\bhttps?://.*(hashhackers)\S+', re.IGNORECASE)
+    pattern1 = re.compile(r"\bhttps?://.*(hubcloud)\S+", re.IGNORECASE)
+    pattern2 = re.compile(r"\bhttps?://.*(newsongs)\S+", re.IGNORECASE)
+    pattern3 = re.compile(r"\bhttps?://.*(hashhackers)\S+", re.IGNORECASE)
     if pattern1.match(flink):
         sleep(4)
         final_msg = wd.find_element(By.XPATH, workers).get_attribute("href")
     elif pattern2.match(flink) or pattern3.match(flink):
-        WebDriverWait(wd, 20).until(ec.element_to_be_clickable((By.XPATH, btnshow))).click()
-        WebDriverWait(wd, 20).until(ec.element_to_be_clickable((By.XPATH, verify_button2))).click()
-        WebDriverWait(wd, 17).until(ec.element_to_be_clickable((By.XPATH, verify_button))).click()
+        WebDriverWait(wd, 20).until(
+            ec.element_to_be_clickable((By.XPATH, btnshow))
+        ).click()
+        WebDriverWait(wd, 20).until(
+            ec.element_to_be_clickable((By.XPATH, verify_button2))
+        ).click()
+        WebDriverWait(wd, 17).until(
+            ec.element_to_be_clickable((By.XPATH, verify_button))
+        ).click()
         sleep(17)
         lastbutton = wd.find_element(By.XPATH, two_steps_btn)
         wd.execute_script("arguments[0].click();", lastbutton)
@@ -268,7 +272,7 @@ def hubcloud(url):
             wd.switch_to.window(IItab)
         final_msg = wd.find_element(By.XPATH, workers).get_attribute("href")
     else:
-        final_msg = 'Could not any matching Links to Bypass from the Link!'
+        final_msg = "Could not any matching Links to Bypass from the Link!"
     return final_msg
 
 
