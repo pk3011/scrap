@@ -4,7 +4,7 @@ import time
 import cloudscraper
 import requests
 from bs4 import BeautifulSoup
-from PyBypass import bypasser as pybyp
+from PyBypass import bypass as pybyp
 
 from bot import Config
 
