@@ -6,6 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from bot import Config
+from PyBypass import bypasser as pybyp
 
 dom = Config.EMILY_API_URL
 api = f"{dom}/bypass"
@@ -170,6 +171,11 @@ def multi_aio(url):
         return r.json()["response"]
 
 
+def multi_pybyp(url):
+    f_url = pybyp(url)
+    return f_url
+
+
 def ouo(url):
     resp = requests.get(url)
     if resp.status_code == 404:
@@ -177,6 +183,22 @@ def ouo(url):
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "ouo", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "Emily API Unresponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
+def privatemoviez(url):
+    resp = requests.get(url)
+    if resp.status_code == 404:
+        return "File not found/The link you entered is wrong!"
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "privatemoviez", "url": url})
         res = resp.json()
     except BaseException:
         return "Emily API Unresponsive / Invalid Link!"

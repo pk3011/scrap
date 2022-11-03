@@ -154,6 +154,19 @@ def moviesdrama_scrap(url):
         return res["msg"]
 
 
+def privatemoviez_scrape(url):
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "privatemoviez_scrape", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "API UnResponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
 def magnet_scrap(url):
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:

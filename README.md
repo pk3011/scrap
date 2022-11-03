@@ -95,6 +95,7 @@ eval - Evaluate Codes
 - [FileCrypt Scraper](https://github.com/bipinkrish/filecrypt-bypass)
 - [XpShort](https://github.com/JohnWickKeanue/xpshort-bypass)
 - [HTPMovies Scraper](https://github.com/JohnWickKeanue/htplinkbypass)
+- [PrivateMoviez Scraper](https://github.com/JohnWickKeanue/privatemoviez-bypass)
 - [LK21](https://github.com/zevtyardt/lk21)
 - [BIFM API](https://git.gay/a/bifm)
 - [Multi-AIO](https://github.com/bypass-vip/bypass.vip)

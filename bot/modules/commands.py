@@ -46,6 +46,7 @@ from bot.helpers.utilities.scraper import (
     index_scrap,
     magnet_scrap,
     moviesdrama_scrap,
+    privatemoviez_scrape,
     olamovies_scrap,
     sharespark_scrap,
     toonworld4all_scrap,
@@ -247,6 +248,9 @@ async def dirt(bot, update):
     elif "solidfiles." in url:
         link_type = "SolidFiles"
         res = direct_link.solidfiles(url)
+    elif "hubcloud." in url:
+        link_type = "HubCloud"
+        res = direct_link.hubcloud(url)
     elif "bunkr.is" in url:
         link_type = "Bunkr.is"
         res = direct_link.bunkr_cyber(url)
@@ -455,7 +459,7 @@ async def aio(bot, update):
     LOGGER.info(f" Received : {cmd} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>"
     await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
-    res = bypasser.multi_aio(url)
+    res = bypasser.multi_pybyp(url)
     LOGGER.info(f" Destination : {cmd} - {res}")
     xyz = f"<b>Bypassed Link :\n</b>{res}"
     await update.reply_text(text=xyz, disable_web_page_preview=True, quote=True)
@@ -1016,6 +1020,12 @@ async def scrp(bot, update):
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Sharespark</i>"
         await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
         des_url = sharespark_scrap(url)
+        LOGGER.info(f" Destination : {cmd} - {des_url}")
+        xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
+    elif "privatemoviez." in url:
+        abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Privatemoviez</i>"
+        await update.reply_text(text=abc, disable_web_page_preview=True, quote=True)
+        des_url = privatemoviez_scrape(url)
         LOGGER.info(f" Destination : {cmd} - {des_url}")
         xyz = f"<b>Telegraph URL(with Result):\n</b> {des_url}"
     elif "pahe." in url:
