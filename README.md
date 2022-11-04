@@ -33,19 +33,10 @@ help - Get information about all Bot Commands
 bifm - Bypass Short Links using BIFM API
 direct - Get Direct Link for various Supported URLs
 bypass - Bypass Various Supported Shortened URLs
-droplink - Get Direct Link for Droplink URLs
-gplink - Get Direct Link for GpLinks URLs
-linkvertise - Get Direct Link for Linkvertise URLs
-adfly - Get Direct Link for Adfly URLs
-sirigan - Get Direct Link for sirigan.my.id URLs
-ouo - Get Direct Link for Ouo URLs
-shorte - Get Direct Link for Shorte.st URLs
 multi - Bypass Short Links using Bypass.vip API
-rocklink - Get Direct Link for RockLink URLs
 shorten - Get AdFree Shortened URLs of your Link
 magnet - Extract Magnet from Torrent Websites
 index - Extract Direct Links from Bhadoo Index Folder URLs
-filecrypt - Extract Download Link Page from FileCrypt URLs
 scrape - Extract Direct Links from Supported Sites
 gd - Get GDrive Links for various Drive File Sharer
 teml - Run Shell/Terminal Commands

@@ -142,6 +142,22 @@ def htpmovies(url):
         return res["msg"]
 
 
+def hypershort(url):
+    resp = requests.get(url)
+    if resp.status_code == 404:
+        return "File not found/The link you entered is wrong!"
+    client = cloudscraper.create_scraper(allow_brotli=False)
+    try:
+        resp = client.post(api, json={"type": "hypershort", "url": url})
+        res = resp.json()
+    except BaseException:
+        return "Emily API Unresponsive / Invalid Link!"
+    if res["success"] is True:
+        return res["url"]
+    else:
+        return res["msg"]
+
+
 def linkvertise(url):
     resp = requests.get(url)
     if resp.status_code == 404:
@@ -172,8 +188,11 @@ def multi_aio(url):
 
 
 def multi_pybyp(url):
-    f_url = pybyp(url)
-    return f_url
+    try:
+        f_url = pybyp(url)
+        return f_url
+    except BaseException:
+        return "Could not Bypass your URL / The Link has Cloudflare Protection!"   
 
 
 def ouo(url):
