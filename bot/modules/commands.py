@@ -42,13 +42,11 @@ from bot.helpers.utilities.scraper import (
     cinevez_scrap,
     cinevood_scrap,
     filecrypt_scrap,
-    htpmovies_scrap,
     igggames_scrape,
     index_scrap,
     magnet_scrap,
     moviesdrama_scrap,
     olamovies_scrap,
-    privatemoviez_scrape,
     sharespark_scrap,
     toonworld4all_scrap,
 )
@@ -76,7 +74,9 @@ async def start(bot, update):
     uid = f"<code>{update.from_user.id}</code>"
     msg = f"Hello {uname} (ID: {uid}),\n<b><i>I am the Multi Function Bot</i></b>\n\n<i>Use /help to get more Information about the Bot.</i>\n\n"
     msg += f"<b>Pyrogram</b> Version : <i>v{__version__}(Layer {layer})</i>\n\n"
-    msg += "<b><i>Made with Love by Miss Emily\n(https://github.com/missemily22)</i></b>"
+    msg += (
+        "<b><i>Made with Love by Miss Emily\n(https://github.com/missemily22)</i></b>"
+    )
     await update.reply_text(
         text=msg,
         disable_web_page_preview=True,

@@ -192,7 +192,7 @@ def multi_pybyp(url):
         f_url = pybyp(url)
         return f_url
     except BaseException:
-        return "Could not Bypass your URL / The Link has Cloudflare Protection!"   
+        return "Could not Bypass your URL / The Link has Cloudflare Protection!"
 
 
 def ouo(url):
