@@ -28,10 +28,20 @@
 		  "value":"",
           "required": true
       },
-	  "AUTH_USER": {
-          "description": "Your Telegram User ID",
-		  "value":"-1",
+	  "OWNER_ID": {
+          "description": "User ID of the Bot Owner (controls sensitive Bot Information!). Add values seperated by space",
+		  "value":"",
           "required": true
+      },
+      "SUDO_USERS": {
+          "description": "Sudo Users who can control the Bot. Add values seperated by space",
+		  "value":"",
+          "required": true
+      },
+      "UPSTREAM_REPO": {
+          "description": "Add the Upstream Repo of your Bot for automatic updation. Add values seperated by space",
+		  "value":"-1",
+          "required": false
       },
 	  "BOT_USERNAME": {
           "description": "Your Bot userName Without `@`",

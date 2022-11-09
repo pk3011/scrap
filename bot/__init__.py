@@ -1,64 +1,48 @@
-import logging
+from bot.config import BOT_TOKEN, API_ID, API_HASH, BOT_USERNAME
+from bot.logging import LOGGER
+import time
+import sys
 import os
+from pyrogram import Client, __version__
+from pyrogram.raw.all import layer
 
-import telegram.ext as tg
-from dotenv import load_dotenv
+BotStartTime = time.time()
+plugins = dict(root="bot/plugins")
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
-LOGGER = logging.getLogger(__name__)
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
-logging.getLogger("urllib3").setLevel(logging.WARNING)
-
-load_dotenv("config.env", override=True)
-
-
-class ENV_VARS(object):
-    API_ID = int(os.environ.get("API_ID"))
-    API_HASH = os.environ.get("API_HASH")
-    BIFM_URL = os.environ.get("BIFM_URL", "https://bifm.tacohitbox.com/api/bypass?url")
-    BOT_TOKEN = os.environ.get("BOT_TOKEN")
-    BOT_USERNAME = os.environ.get("BOT_USERNAME")
-    GDTOT_CRYPT = os.environ.get("GDTOT_CRYPT")
-    UNIFIED_EMAIL = os.environ.get("UNIFIED_EMAIL")
-    UNIFIED_PASS = os.environ.get("UNIFIED_PASS")
-    HUBDRIVE_CRYPT = os.environ.get("HUBDRIVE_CRYPT")
-    KATDRIVE_CRYPT = os.environ.get("KATDRIVE_CRYPT")
-    KOLOP_CRYPT = os.environ.get("KOLOP_CRYPT")
-    DRIVEFIRE_CRYPT = os.environ.get("DRIVEFIRE_CRYPT")
-    DRIVEBUZZ_CRYPT = os.environ.get("DRIVEBUZZ_CRYPT")
-    GADRIVE_CRYPT = os.environ.get("GADRIVE_CRYPT")
-    JIODRIVE_CRYPT = os.environ.get("JIODRIVE_CRYPT")
-    Sharerpw_XSRF = os.environ.get("Sharerpw_XSRF")
-    Sharerpw_laravel = os.environ.get("Sharerpw_laravel")
-    EMILY_API_URL = os.environ.get("EMILY_API_URL", "https://api.emilyx.in/api")
-    UPTOBOX_TOKEN = os.environ.get("UPTOBOX_TOKEN")
-    AUTH_USER = int(os.environ.get("AUTH_USER", 0))
-    MAX_MESSAGE_LENGTH = int(os.environ.get("MAX_MESSAGE_LENGTH", 4096))
+if sys.version_info[0] < 3 or sys.version_info[1] < 7:
+    VERSION_ASCII = """
+  =============================================================
+  "You MUST need to be on python 3.7 or above, shutting down the bot...
+  =============================================================
+  """
+    LOGGER(__name__).critical(VERSION_ASCII)
+    sys.exit(1)
 
 
-Config = ENV_VARS
-handler = Config.BOT_USERNAME
-tg_bot = Config.BOT_TOKEN
+BANNER = """
+________________________________________________________________________________________________________________ 
+|   _____        .__   __  .__  ___________                   __  .__                __________        __      |
+|   /     \  __ __|  |_/  |_|__| \_   _____/_ __  ____   _____/  |_|__| ____   ____   \______   \ _____/  |_   |
+|  /  \ /  \|  |  \  |\   __\  |  |    __)|  |  \/    \_/ ___\   __\  |/  _ \ /    \   |    |  _//  _ \   __\  |
+| /    Y    \  |  /  |_|  | |  |  |     \ |  |  /   |  \  \___|  | |  (  <_> )   |  \  |    |   (  <_> )  |    |
+| \____|__  /____/|____/__| |__|  \___  / |____/|___|  /\___  >__| |__|\____/|___|  /  |______  /\____/|__|    |
+|         \/                          \/             \/     \/                    \/          \/               |
+|______________________________________________________________________________________________________________|
+"""
+# https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Multi%20Function%20Bot
 
-updater = tg.Updater(
-    token=tg_bot, request_kwargs={"read_timeout": 30, "connect_timeout": 15}
-)
-bot = updater.bot
+un = f"@{BOT_USERNAME}"
 
+LOGGER(__name__).info(BANNER)
+LOGGER(__name__).info("Installing Bot Requirements...")
+os.system("pip3 install --no-cache-dir -r requirements.txt --upgrade")
+LOGGER(__name__).info(f"Pyrogram v{__version__} (Layer {layer}) started on {un}.")
+LOGGER(__name__).info("Telegram Bot Started.")
 
-class CMD(object):
-    START = ["start", f"start@{handler}"]
-    HELP = ["help", f"help@{handler}"]
-    TEML = ["teml", f"teml@{handler}"]
-    RUNF = ["eval", f"eval@{handler}"]
-    BIFM = ["bifm", f"bifm@{handler}"]
-    DIRT = ["direct", f"direct@{handler}"]
-    BYPS = ["bypass", f"bypass@{handler}"]
-    AIO = ["multi", f"multi@{handler}"]
-    SHRT = ["shorten", f"shorten@{handler}"]
-    INDX = ["index", f"index@{handler}"]
-    MGNT = ["magnet", f"magnet@{handler}"]
-    SCRP = ["scrape", f"scrape@{handler}"]
-    GDFS = ["gd", f"gd@{handler}"]
+bot = Client(
+    "MultiFunctionBot",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN,
+    plugins=plugins,
+)  # https://docs.pyrogram.org/topics/smart-plugins

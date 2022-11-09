@@ -5,14 +5,15 @@ import cloudscraper
 import requests
 from bs4 import BeautifulSoup
 from PyBypass import bypass as pybyp
+from PyBypass.main import BypasserNotFoundError, UrlConnectionError, UnableToBypassError
 
-from bot import Config
-
-dom = Config.EMILY_API_URL
-api = f"{dom}/bypass"
+from bot.config import *
+from bot.helpers.functions import api_checker
 
 
 def adfly(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -29,6 +30,8 @@ def adfly(url):
 
 
 def adrinolinks(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -49,7 +52,7 @@ def bifm(url):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36"
     }
-    apix = f"{Config.BIFM_URL}={url}"
+    apix = f"{BIFM_URL}={url}"
     time.sleep(2)
     response = client.get(apix, headers=headers)
     try:
@@ -63,6 +66,8 @@ def bifm(url):
 
 
 def droplink(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -79,6 +84,8 @@ def droplink(url):
 
 
 def gplinks(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -95,6 +102,8 @@ def gplinks(url):
 
 
 def gtlinks(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -111,6 +120,8 @@ def gtlinks(url):
 
 
 def gyanilinks(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -127,6 +138,8 @@ def gyanilinks(url):
 
 
 def htpmovies(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -143,6 +156,8 @@ def htpmovies(url):
 
 
 def hypershort(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -159,6 +174,8 @@ def hypershort(url):
 
 
 def linkvertise(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -175,6 +192,8 @@ def linkvertise(url):
 
 
 def multi_aio(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -191,11 +210,17 @@ def multi_pybyp(url):
     try:
         f_url = pybyp(url)
         return f_url
-    except BaseException:
-        return "Could not Bypass your URL / The Link has Cloudflare Protection!"
+    except UrlConnectionError:
+        return "Not able to establish a successful connection with given URL. It is probably protected by Cloudfare!"
+    except BypasserNotFoundError:
+        return "Can not find a bypasser script found for this URL."
+    except UnableToBypassError:
+        return "Unable to bypass this link. Possible reason can be cloudfare protection, wrong link, expired link or script is patched!"
 
 
 def ouo(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -212,6 +237,8 @@ def ouo(url):
 
 
 def privatemoviez(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -247,6 +274,8 @@ def RecaptchaV3(ANCHOR_URL):
 
 
 def rocklinks(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -341,6 +370,8 @@ def scriptb(url):
 
 
 def shareus(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -357,6 +388,8 @@ def shareus(url):
 
 
 def shorte(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -373,6 +406,8 @@ def shorte(url):
 
 
 def shortingly(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -389,6 +424,8 @@ def shortingly(url):
 
 
 def sirigan(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -405,6 +442,8 @@ def sirigan(url):
 
 
 def tnlink(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -421,6 +460,8 @@ def tnlink(url):
 
 
 def xpshort(url):
+    dom = api_checker()
+    api = f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"

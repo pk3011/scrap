@@ -7,12 +7,14 @@ flask
 flask_restful
 lk21
 lxml
+psutil
 PyBypass
 pyrogram
 python-dotenv
 python-telegram-bot
 requests
 selenium
+speedtest-cli
 telegraph
 tgcrypto
 urllib3

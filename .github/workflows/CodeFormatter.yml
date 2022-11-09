@@ -15,16 +15,16 @@ jobs:
       - name: Check for Showstoppers
         run: >
           autopep8 --verbose --in-place --recursive --aggressive --aggressive
-          --ignore=W605 bot/modules/ bot/helpers/ bot/__init__.py
+          --ignore=W605 bot/helpers/ bot/modules/ bot/plugins/developer bot/plugins/sudo bot/plugins/users bot/__init__.py bot/config.py bot/logging.py bot/version.py
       - name: Remove Unused Imports and Variables
         run: >
           autoflake --in-place --recursive --remove-all-unused-imports
           --remove-unused-variables --ignore-init-module-imports .
       - name: Lint with Isort and Black
         run: |
-          isort bot/modules/ bot/helpers/ bot/__init__.py
-          black bot/modules/ bot/helpers/ bot/__init__.py
-      - uses: stefanzweifel/git-auto-commit-action@v4.15.3
+          isort bot/helpers/ bot/modules/ bot/plugins/developer bot/plugins/sudo bot/plugins/users bot/__init__.py bot/config.py bot/logging.py bot/version.py
+          black bot/helpers/ bot/modules/ bot/plugins/developer bot/plugins/sudo bot/plugins/users bot/__init__.py bot/config.py bot/logging.py bot/version.py
+      - uses: stefanzweifel/git-auto-commit-action@v4.15.4
         with:
           commit_message: "Auto: Code Formatted"
           commit_options: "--no-verify"

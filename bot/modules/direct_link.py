@@ -12,14 +12,15 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
-from bot import LOGGER, Config
-from bot.helpers.utilities.regex import is_sendcm_folder_link
+from bot.helpers.functions import api_checker
+from bot.config import *
+from bot.modules.regex import is_sendcm_folder_link
 
-dom = Config.EMILY_API_URL
-api = f"{dom}/direct"
 
 
 def androiddatahost(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -50,6 +51,8 @@ def antfiles(url):
 
 
 def artstation(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -171,6 +174,8 @@ def filesIm(url):
 
 
 def github(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -187,6 +192,8 @@ def github(url):
 
 
 def gdbot(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -203,6 +210,8 @@ def gdbot(url):
 
 
 def gofile(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -284,6 +293,8 @@ def hxfile(url):
 
 
 def krakenfiles(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -314,6 +325,8 @@ def linkpoi(url):
 
 
 def mdisk(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -330,6 +343,8 @@ def mdisk(url):
 
 
 def mdisk_mpd(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -346,6 +361,8 @@ def mdisk_mpd(url):
 
 
 def mediafire(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -362,6 +379,8 @@ def mediafire(url):
 
 
 def megaup(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -385,6 +404,8 @@ def mirrored(url):
 
 
 def osdn(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -401,6 +422,8 @@ def osdn(url):
 
 
 def pandafile(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -417,6 +440,8 @@ def pandafile(url):
 
 
 def pixeldrain(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -552,6 +577,8 @@ def sendcm(url):
 
 
 def solidfiles(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -568,6 +595,8 @@ def solidfiles(url):
 
 
 def sfile(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -584,6 +613,8 @@ def sfile(url):
 
 
 def sourceforge(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -604,6 +635,8 @@ def sourceforge2(url):
 
 
 def streamlare(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -626,7 +659,9 @@ def streamtape(url):
         return "Could not Generate Direct Link for your StreamTape Link :("
 
 
-def uploadee(url: str) -> str:
+def uploadee(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -643,16 +678,16 @@ def uploadee(url: str) -> str:
 
 
 def uptobox(url):
-    if Config.UPTOBOX_TOKEN is None:
-        LOGGER.info("UPTOBOX Error: Token not Provided!")
+    if UPTOBOX_TOKEN is None:
+        LOGGER(__name__).info("UPTOBOX Error: Token not Provided!")
         return "UptoBox Token not Provided!"
-    utb_tok = Config.UPTOBOX_TOKEN
+    utb_tok = UPTOBOX_TOKEN
     try:
         link = re.findall(r"\bhttps?://.*uptobox\.com\S+", url)[0]
     except IndexError:
         return "No Uptobox links found"
     if utb_tok is None:
-        LOGGER.error("UPTOBOX_TOKEN not provided!")
+        LOGGER(__name__).error("UPTOBOX_TOKEN not provided!")
         dl_url = link
     else:
         try:
@@ -685,7 +720,7 @@ def uptobox(url):
                 return f"Uptobox is being limited. Please wait {mins} min {secs} sec."
             else:
                 err = result["message"]
-                LOGGER.info(f"UPTOBOX Error: {err}")
+                LOGGER(__name__).info(f"UPTOBOX Error: {err}")
                 return f"{err}"
     return dl_url
 
@@ -698,6 +733,8 @@ def uservideo(url):
 
 
 def wetransfer(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -714,6 +751,8 @@ def wetransfer(url):
 
 
 def yandex_disk(url):
+    dom = api_checker()
+    api = f"{dom}/direct"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"

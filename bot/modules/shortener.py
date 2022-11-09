@@ -1,13 +1,12 @@
 import cloudscraper
 import requests
 
-from bot import Config
-
-dom = Config.EMILY_API_URL
-api = f"{dom}/shorten"
+from bot.helpers.functions import api_checker
 
 
 def bitly(url):
+    dom = api_checker()
+    api = f"{dom}/shorten"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -24,6 +23,8 @@ def bitly(url):
 
 
 def dagd(url):
+    dom = api_checker()
+    api = f"{dom}/shorten"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -40,6 +41,8 @@ def dagd(url):
 
 
 def tinyurl(url):
+    dom = api_checker()
+    api = f"{dom}/shorten"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -56,6 +59,8 @@ def tinyurl(url):
 
 
 def osdb(url):
+    dom = api_checker()
+    api = f"{dom}/shorten"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -72,6 +77,8 @@ def osdb(url):
 
 
 def ttm(url):
+    dom = api_checker()
+    api = f"{dom}/shorten"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -88,6 +95,8 @@ def ttm(url):
 
 
 def isgd(url):
+    dom = api_checker()
+    api = f"{dom}/shorten"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -104,6 +113,8 @@ def isgd(url):
 
 
 def vgd(url):
+    dom = api_checker()
+    api = f"{dom}/shorten"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -120,6 +131,8 @@ def vgd(url):
 
 
 def clickru(url):
+    dom = api_checker()
+    api = f"{dom}/shorten"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"
@@ -136,6 +149,8 @@ def clickru(url):
 
 
 def clilp(url):
+    dom = api_checker()
+    api = f"{dom}/shorten"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"

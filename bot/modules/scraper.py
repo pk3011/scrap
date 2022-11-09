@@ -5,10 +5,9 @@ from base64 import b64decode
 
 import cloudscraper
 
-from bot import Config
+from bot.config import *
+from bot.helpers.functions import api_checker
 
-dom = Config.EMILY_API_URL
-api = f"{dom}/scraper"
 
 next_page = False
 next_page_token = ""
@@ -46,7 +45,7 @@ def index_scraper(payload, url):
                 pass
             else:
                 ddl = url + urllib.parse.quote(file_name)
-                res += f"• {file_name}:-<br>{ddl}<br><br>"
+                res += f"• <b>{file_name}</b>:-<br><code>{ddl}</code><br><br>"
         return res
 
 
@@ -64,6 +63,8 @@ def index_scrap(url):
 
 
 def atishmkv_scrap(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "atishmkv_scrap", "url": url})
@@ -77,6 +78,8 @@ def atishmkv_scrap(url):
 
 
 def cinevez_scrap(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "cinevez_scrap", "url": url})
@@ -90,6 +93,8 @@ def cinevez_scrap(url):
 
 
 def cinevood_scrap(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "cinevood_scrap", "url": url})
@@ -103,6 +108,8 @@ def cinevood_scrap(url):
 
 
 def filecrypt_scrap(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "filecrypt_scrap", "url": url})
@@ -116,6 +123,8 @@ def filecrypt_scrap(url):
 
 
 def htpmovies_scrap(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "htpmovies_scrap", "url": url})
@@ -129,6 +138,8 @@ def htpmovies_scrap(url):
 
 
 def igggames_scrape(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "igggames_scrape", "url": url})
@@ -142,6 +153,8 @@ def igggames_scrape(url):
 
 
 def moviesdrama_scrap(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "moviesdrama_scrap", "url": url})
@@ -155,6 +168,8 @@ def moviesdrama_scrap(url):
 
 
 def privatemoviez_scrape(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "privatemoviez_scrape", "url": url})
@@ -168,6 +183,8 @@ def privatemoviez_scrape(url):
 
 
 def magnet_scrap(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "magnet_scrap", "url": url})
@@ -181,6 +198,8 @@ def magnet_scrap(url):
 
 
 def sharespark_scrap(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "sharespark_scrap", "url": url})
@@ -194,6 +213,8 @@ def sharespark_scrap(url):
 
 
 def olamovies_scrap(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "olamovies_scrap", "url": url})
@@ -207,6 +228,8 @@ def olamovies_scrap(url):
 
 
 def psa_scrap(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.get(api, json={"type": "psa_scrap", "url": url})
@@ -220,6 +243,8 @@ def psa_scrap(url):
 
 
 def toonworld4all_scrap(url):
+    dom = api_checker()
+    api = f"{dom}/scraper"
     client = cloudscraper.create_scraper(allow_brotli=False)
     try:
         resp = client.post(api, json={"type": "toonworld4all_scrap", "url": url})
