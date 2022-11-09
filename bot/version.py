@@ -1,4 +1,5 @@
 from sys import version_info
+
 from pyrogram import __version__ as __pyrog_version__
 from pyrogram.raw.all import layer
 
@@ -10,8 +11,10 @@ __major__ = 2
 __minor__ = 0
 __micro__ = 0
 
+
 def get_version() -> str:
     return f"{__major__}.{__minor__}.{__micro__}"
+
 
 __pyrog_version__ = __pyrog_version__.replace("'", "").replace("{", "").replace("}", "")
 layer = str(layer)

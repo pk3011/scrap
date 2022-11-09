@@ -20,14 +20,16 @@ def gdtot(url: str) -> str:
     if GDTOT_CRYPT is None:
         return "GdTot Crypt not provided"
     crypt = GDTOT_CRYPT
-    gd_link = gdtot_bypass(url, gdtot_crypt = crypt)
+    gd_link = gdtot_bypass(url, gdtot_crypt=crypt)
     return gd_link
 
 
 def unified(url: str) -> str:
     if (UNIFIED_EMAIL or UNIFIED_PASS) is None:
         return "AppDrive Look-Alike Credentials not Found!"
-    gd_link = appdrive_bypass(url, appdrive_email = UNIFIED_EMAIL, appdrive_password = UNIFIED_PASS)
+    gd_link = appdrive_bypass(
+        url, appdrive_email=UNIFIED_EMAIL, appdrive_password=UNIFIED_PASS
+    )
     return gd_link
 
 
@@ -105,7 +107,9 @@ def parse_info(res, url):
 def sharerpw(url: str) -> str:
     if Sharerpw_XSRF is None or Sharerpw_laravel is None:
         return "Sharerpw Cookies not Found!"
-    gd_link = sharerpw_bypass(url, sharerpw_xsrf_token = Sharerpw_XSRF, sharerpw_larvel_session = Sharerpw_laravel)
+    gd_link = sharerpw_bypass(
+        url, sharerpw_xsrf_token=Sharerpw_XSRF, sharerpw_larvel_session=Sharerpw_laravel
+    )
     return gd_link
 
 

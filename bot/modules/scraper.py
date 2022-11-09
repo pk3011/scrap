@@ -5,9 +5,7 @@ from base64 import b64decode
 
 import cloudscraper
 
-from bot.config import *
 from bot.helpers.functions import api_checker
-
 
 next_page = False
 next_page_token = ""

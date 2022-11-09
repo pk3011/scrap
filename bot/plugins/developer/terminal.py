@@ -1,15 +1,15 @@
+import os
+import subprocess
+import sys
+import traceback
+from io import BytesIO, StringIO
+
+from pyrogram import Client, filters
+from pyrogram.types import Message
+
+from bot.config import *
 from bot.helpers.decorators import dev_commands
 from bot.logging import LOGGER
-from pyrogram import Client, filters
-from bot import bot
-from pyrogram.types import Message
-from bot.config import *
-from io import StringIO, BytesIO
-import subprocess
-import traceback
-import sys
-import os
-
 
 prefixes = COMMAND_PREFIXES
 

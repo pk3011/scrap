@@ -1,6 +1,8 @@
-from bot.logging import LOGGER
 from os import environ
+
 from dotenv import load_dotenv
+
+from bot.logging import LOGGER
 
 load_dotenv("config.env", override=True)
 
@@ -19,7 +21,8 @@ BOT_USERNAME = environ.get("BOT_USERNAME", "")
 if len(BOT_USERNAME) == 0:
     LOGGER(__name__).error("BOT_USERNAME not provided!")
     exit(1)
-if "@" in BOT_USERNAME: BOT_USERNAME = BOT_USERNAME.replace("@", "")
+if "@" in BOT_USERNAME:
+    BOT_USERNAME = BOT_USERNAME.replace("@", "")
 
 list = []
 cmd_prfx = environ.get("COMMAND_PREFIXES", "! / .")

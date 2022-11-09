@@ -1,7 +1,6 @@
 import cloudscraper
+
 from bot.helpers.functions import api_checker
-
-
 
 
 def telegraph_paste(res):

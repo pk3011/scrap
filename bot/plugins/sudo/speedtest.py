@@ -1,10 +1,11 @@
-from bot.helpers.functions import get_readable_bytes
-from bot.helpers.decorators import sudo_commands
-from bot.logging import LOGGER
-from speedtest import Speedtest
-from pyrogram.types import Message
 from pyrogram import Client, filters
+from pyrogram.types import Message
+from speedtest import Speedtest
+
 from bot.config import *
+from bot.helpers.decorators import sudo_commands
+from bot.helpers.functions import get_readable_bytes
+from bot.logging import LOGGER
 
 prefixes = COMMAND_PREFIXES
 commands = ["speedtest", f"speedtest@{BOT_USERNAME}"]

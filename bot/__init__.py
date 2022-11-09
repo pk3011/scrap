@@ -1,10 +1,12 @@
-from bot.config import BOT_TOKEN, API_ID, API_HASH, BOT_USERNAME
-from bot.logging import LOGGER
-import time
-import sys
 import os
+import sys
+import time
+
 from pyrogram import Client, __version__
 from pyrogram.raw.all import layer
+
+from bot.config import API_HASH, API_ID, BOT_TOKEN, BOT_USERNAME
+from bot.logging import LOGGER
 
 BotStartTime = time.time()
 plugins = dict(root="bot/plugins")
@@ -20,7 +22,7 @@ if sys.version_info[0] < 3 or sys.version_info[1] < 7:
 
 
 BANNER = """
-________________________________________________________________________________________________________________ 
+________________________________________________________________________________________________________________
 |   _____        .__   __  .__  ___________                   __  .__                __________        __      |
 |   /     \  __ __|  |_/  |_|__| \_   _____/_ __  ____   _____/  |_|__| ____   ____   \______   \ _____/  |_   |
 |  /  \ /  \|  |  \  |\   __\  |  |    __)|  |  \/    \_/ ___\   __\  |/  _ \ /    \   |    |  _//  _ \   __\  |

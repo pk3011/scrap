@@ -4,11 +4,13 @@ https://www.geeksforgeeks.org/decorators-in-python/
 https://realpython.com/primer-on-python-decorators/
 """
 
-from bot.helpers.functions import isAdmin
-from pyrogram import Client
 from typing import Callable
-from bot.config import *
+
+from pyrogram import Client
 from pyrogram.types import Message
+
+from bot.config import *
+from bot.helpers.functions import isAdmin
 
 
 def user_commands(func: Callable) -> Callable:

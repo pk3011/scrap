@@ -5,7 +5,7 @@ import cloudscraper
 import requests
 from bs4 import BeautifulSoup
 from PyBypass import bypass as pybyp
-from PyBypass.main import BypasserNotFoundError, UrlConnectionError, UnableToBypassError
+from PyBypass.main import BypasserNotFoundError, UnableToBypassError, UrlConnectionError
 
 from bot.config import *
 from bot.helpers.functions import api_checker
@@ -193,7 +193,7 @@ def linkvertise(url):
 
 def multi_aio(url):
     dom = api_checker()
-    api = f"{dom}/bypass"
+    f"{dom}/bypass"
     resp = requests.get(url)
     if resp.status_code == 404:
         return "File not found/The link you entered is wrong!"

@@ -1,18 +1,20 @@
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from bot.version import (
-    __python_version__,
-    __bot_version__,
-    __pyro_version__,
-    __pyro_layer__,
-    __license__,
-    __gitrepo__,
-)
+import time
+
 from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 from bot import BotStartTime
 from bot.config import *
 from bot.helpers.decorators import user_commands
 from bot.helpers.functions import get_readable_time
-import time
+from bot.version import (
+    __bot_version__,
+    __gitrepo__,
+    __license__,
+    __pyro_layer__,
+    __pyro_version__,
+    __python_version__,
+)
 
 botuptime = get_readable_time(time.time() - BotStartTime)
 
@@ -28,7 +30,7 @@ ABOUT_TEXT = f"""• **Python Version** : {__python_version__}
 
 **Github Repo**: {__gitrepo__}"""
 
-USER_TEXT = """🗒️ Documentation for commands available to user's 
+USER_TEXT = """🗒️ Documentation for commands available to user's
 
 • /start: To Get this message
 
@@ -68,7 +70,7 @@ SUDO_TEXT = """
 DEV_TEXT = """
 🗒️ Documentation for Developers Commands.
 
-• /update: To update the bot to latest commit from repository. 
+• /update: To update the bot to latest commit from repository.
 
 • /restart: Restart the bot.
 
@@ -127,7 +129,8 @@ async def botCallbacks(client, CallbackQuery):
 
     if CallbackQuery.data == "ABOUT_BUTTON":
         await CallbackQuery.edit_message_text(
-            ABOUT_TEXT, reply_markup=InlineKeyboardMarkup(GOBACK_1_BUTTON),
+            ABOUT_TEXT,
+            reply_markup=InlineKeyboardMarkup(GOBACK_1_BUTTON),
             disable_web_page_preview=True,
         )
 

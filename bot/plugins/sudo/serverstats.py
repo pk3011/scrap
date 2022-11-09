@@ -1,13 +1,14 @@
 import shutil
-import psutil
 import time
+
+import psutil
 from pyrogram import Client, filters
 from pyrogram.types import Message
+
 from bot import BotStartTime
 from bot.config import *
-from bot.helpers.functions import get_readable_size, get_readable_time
 from bot.helpers.decorators import sudo_commands
-
+from bot.helpers.functions import get_readable_size, get_readable_time
 
 prefixes = COMMAND_PREFIXES
 
@@ -34,6 +35,7 @@ async def update(client, message: Message):
     ram_usage = psutil.virtual_memory().percent
     disk_usage = psutil.disk_usage("/").percent
 
-    await message.reply_text(f"**≧◉◡◉≦ Bot is Up and Running successfully.**\n\n× Bot Uptime: `{currentTime}`\n× Total Disk Space: `{total}`\n× Used: `{used}({disk_usage}%)`\n× Free: `{free}`\n× CPU Usage: `{cpu_usage}%`\n× RAM Usage: `{ram_usage}%`",
+    await message.reply_text(
+        f"**≧◉◡◉≦ Bot is Up and Running successfully.**\n\n× Bot Uptime: `{currentTime}`\n× Total Disk Space: `{total}`\n× Used: `{used}({disk_usage}%)`\n× Free: `{free}`\n× CPU Usage: `{cpu_usage}%`\n× RAM Usage: `{ram_usage}%`",
         quote=True,
     )
