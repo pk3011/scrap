@@ -43,7 +43,7 @@ async def shell(client, message: Message):
     if len(result) > 2000:
         file = BytesIO(result.encode())
         file.name = "output.txt"
-        await message.reply_text("output too large. sending it as a file..", quote=True)
+        await message.reply_text("Output is too large (Sending it as File)", quote=True)
         await client.send_document(message.chat.id, file, caption=file.name)
     else:
         await message.reply_text(f"**Output:**:\n\n{result}", quote=True)
@@ -89,7 +89,6 @@ async def executor(client, message: Message):
     sys.stdout = old_stdout
     sys.stderr = old_stderr
 
-    evaluation = ""
     if exc:
         evaluation = exc
     elif stderr:
@@ -104,7 +103,7 @@ async def executor(client, message: Message):
         with open("output.txt", "w+", encoding="utf8") as file:
             file.write(str(evaluation.strip()))
 
-        await message.reply_text("output too large. sending it as a file..", quote=True)
+        await message.reply_text("Output is too large (Sending it as File)", quote=True)
         await client.send_document(message.chat.id, "output.txt", caption="output.txt")
         os.remove("output.txt")
 

@@ -1,5 +1,5 @@
 from re import search
-from time import time
+from time import time,sleep
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -47,6 +47,9 @@ async def direct(_, message: Message):
     uname = message.from_user.mention
     uid = f"<code>{message.from_user.id}</code>"
     start = time()
+    msg_text = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Processing your URL.....</b>"
+    msg = await message.reply_text(text=msg_text, disable_web_page_preview=True, quote=True)
+    sleep(1)
     is_artstation = is_artstation_link(url)
     if is_artstation:
         link_type = "ArtStation"
@@ -187,19 +190,19 @@ async def direct(_, message: Message):
             res = direct_link.sendcm(url)
     elif any(x in url for x in linkvertise_list):
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>This Link is Supported by the Short Link Bypasser</b>\n\n<i>Use it with /bypass command followed by Link</i>"
-        await message.reply_text(text=err, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=err)
         return
     elif any(x in url for x in bypass_list):
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>This Link is Supported by the Short Link Bypasser</b>\n\n<i>Use it with /bypass command followed by Link</i>"
-        await message.reply_text(text=err, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=err)
         return
     elif any(x in url for x in adfly_list):
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>This Link is Supported by the Short Link Bypasser</b>\n\n<i>Use it with /bypass command followed by Link</i>"
-        await message.reply_text(text=err, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=err)
         return
     elif any(x in url for x in scrape_list):
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>This Link is Supported by the Site Scraper</b>\n\n<i>Use it with /scrape command followed by Link</i>"
-        await message.reply_text(text=err, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=err)
         return
     else:
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b><i>Could not generate Direct Link for your URL</i></b>"
@@ -207,7 +210,8 @@ async def direct(_, message: Message):
         return
     LOGGER(__name__).info(f" Received : {cmd} - {link_type} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n<b>Link Type</b> : <i>{link_type}</i>"
-    await message.reply_text(text=abc, disable_web_page_preview=True, quote=True)
+    await msg.edit(text=abc)
+    sleep(1)
     time_taken = get_readable_time(time() - start)
     LOGGER(__name__).info(f" Destination : {cmd} - {res}")
     if link_type == "GoFile":

@@ -1,4 +1,5 @@
 import os
+import time
 import subprocess
 import sys
 
@@ -40,6 +41,7 @@ async def update(client, message: Message):
             ],
             shell=True,
         )
+        time.sleep(1.5)
         if update.returncode == 0:
             LOGGER(__name__).info(
                 "Successfully updated with latest commit from UPSTREAM_REPO"
@@ -48,6 +50,7 @@ async def update(client, message: Message):
             LOGGER(__name__).error(
                 "Something went wrong while updating, check UPSTREAM_REPO if valid or not!"
             )
+        time.sleep(2)
         LOGGER(__name__).info("Bot Updated with latest commits. Restarting now..")
         await msg.edit(
             "**Changes pulled with latest commits. Restarting bot now... 🌟**"
@@ -70,7 +73,7 @@ async def restart(client, message: Message):
     Restart the bot.
     """
 
-    LOGGER(__name__).info("Restarting the bot. shutting down this instance")
+    LOGGER(__name__).info("Restarting the bot. Shutting down this instance")
     print("ok")
     await message.reply_text(
         "`Starting a new instance and shutting down this one`", quote=True

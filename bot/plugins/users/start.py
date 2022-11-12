@@ -16,9 +16,8 @@ from bot.version import (
     __python_version__,
 )
 
-botuptime = get_readable_time(time.time() - BotStartTime)
 
-START_TEXT = f"<b>Hey there!!</b>\n<b><i>I am the Multi Function Bot.</i></b>\n<i>Use buttons to navigate and know more about me :) \n\n**Bot is alive since {botuptime}.**</i>"
+START_TEXT = """<b>Hey there!!</b>\n<b><i>I am the Multi Function Bot.</i></b>\n<i>Use buttons to navigate and know more about me :) \n\n**Bot is alive since {}.**</i>"""
 
 COMMAND_TEXT = """**Here are the list of commands wich you can use in bot.\n**"""
 
@@ -116,8 +115,9 @@ commands = ["start", f"start@{BOT_USERNAME}", "help", f"help@{BOT_USERNAME}"]
 @Client.on_message(filters.command(commands, **prefixes))
 @user_commands
 async def start(client, message):
+    botuptime = get_readable_time(time.time() - BotStartTime)
     await message.reply_text(
-        text=START_TEXT,
+        text=START_TEXT.format(botuptime),
         disable_web_page_preview=True,
         reply_markup=InlineKeyboardMarkup(START_BUTTON),
     )

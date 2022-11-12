@@ -1,5 +1,5 @@
 from re import search
-from time import time
+from time import time, sleep
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -46,6 +46,9 @@ async def bypass(_, message: Message):
     uname = message.from_user.mention
     uid = f"<code>{message.from_user.id}</code>"
     start = time()
+    msg_text = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Processing your URL.....</b>"
+    msg = await message.reply_text(text=msg_text, disable_web_page_preview=True, quote=True)
+    sleep(1)
     if "droplink." in url or "droplinks." in url:
         link_type = "DropLinks"
         res = bypasser.droplink(url)
@@ -69,7 +72,7 @@ async def bypass(_, message: Message):
         res = bypasser.privatemoviez(url)
     elif "hypershort." in url:
         link_type = "HyperShort"
-        res = bypasser.rocklinks(url)
+        res = bypasser.hypershort(url)
     elif "sirigan.my.id" in url:
         link_type = "Sirigan.my.id"
         res = bypasser.sirigan(url)
@@ -105,23 +108,23 @@ async def bypass(_, message: Message):
         res = bypasser.adrinolinks(url)
     elif any(x in url for x in yandisk_list):
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>This Link is Supported by the Direct Link Generator</b>\n\n<i>Use it with /direct command followed by Link</i>"
-        await message.reply_text(text=err, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=err)
         return
     elif any(x in url for x in fmed_list):
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>This Link is Supported by the Direct Link Generator</b>\n\n<i>Use it with /direct command followed by Link</i>"
-        await message.reply_text(text=err, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=err)
         return
     elif any(x in url for x in sbembed_list):
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>This Link is Supported by the Direct Link Generator</b>\n\n<i>Use it with /direct command followed by Link</i>"
-        await message.reply_text(text=err, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=err)
         return
     elif any(x in url for x in directdl_list):
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>This Link is Supported by the Direct Link Generator</b>\n\n<i>Use it with /direct command followed by Link</i>"
-        await message.reply_text(text=err, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=err)
         return
     elif any(x in url for x in scrape_list):
         err = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>This Link is Supported by the Site Scraper</b>\n\n<i>Use it with /scrape command followed by Link</i>"
-        await message.reply_text(text=err, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=err)
         return
     else:
         if url is not None:
@@ -130,19 +133,16 @@ async def bypass(_, message: Message):
                 res = bypasser.script(url)
             except BaseException:
                 err = "<b><i>Could not find Bypass for your URL!</i></b>"
-                await message.reply_text(
-                    text=err, disable_web_page_preview=True, quote=True
-                )
+                await msg.edit(text=err)
                 return
         else:
             err = "<b><i>Could not find your URL!</i></b>"
-            await message.reply_text(
-                text=err, disable_web_page_preview=True, quote=True
-            )
+            await msg.edit(text=err)
             return
     LOGGER(__name__).info(f" Received : {cmd} - {link_type} - {url}")
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n<b>Link Type</b> : <i>{link_type}</i>"
-    await message.reply_text(text=abc, disable_web_page_preview=True, quote=True)
+    await msg.edit(text=abc)
+    sleep(1)
     time_taken = get_readable_time(time() - start)
     LOGGER(__name__).info(f" Destination : {cmd} - {res}")
     xyz = f"<b>Bypassed Result :\n</b>{res}\n\n<i>Time Taken : {time_taken}</i>"

@@ -1,5 +1,5 @@
 from re import search
-from time import time
+from time import time, sleep
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -44,7 +44,10 @@ async def gd(_, message: Message):
     uname = message.from_user.mention
     uid = f"<code>{message.from_user.id}</code>"
     start = time()
+    msg_text = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Processing your URL.....</b>"
+    msg = await message.reply_text(text=msg_text, disable_web_page_preview=True, quote=True)
     LOGGER(__name__).info(f" Received : {cmd} - {url}")
+    sleep(1)
     is_gdtot = is_gdtot_link(url)
     is_drivehubs = is_drivehubs_link(url)
     is_unified = is_unified_link(url)
@@ -52,48 +55,49 @@ async def gd(_, message: Message):
     is_sharer = is_sharer_link(url)
     if is_gdtot:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>GDTot</i>"
-        await message.reply_text(text=abc, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=abc)
         res = gdtot(url)
         time_taken = get_readable_time(time() - start)
         LOGGER(__name__).info(f" Destination : {cmd} - {res}")
-        xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}"
+        xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}</i>"
     elif is_drivehubs:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>DriveHubs</i>"
-        await message.reply_text(text=abc, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=abc)
         res = drivehubs(url)
         time_taken = get_readable_time(time() - start)
         LOGGER(__name__).info(f" Destination : {cmd} - {res}")
-        xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}"
+        xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}</i>"
     elif is_unified:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>AppDrive Look-Alike</i>"
-        await message.reply_text(text=abc, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=abc)
         res = unified(url)
         time_taken = get_readable_time(time() - start)
         LOGGER(__name__).info(f" Destination : {cmd} - {res}")
-        xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}"
+        xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}</i>"
     elif is_udrive:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>HubDrive Look-Alike</i>"
-        await message.reply_text(text=abc, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=abc)
         res = udrive(url)
         time_taken = get_readable_time(time() - start)
         LOGGER(__name__).info(f" Destination : {cmd} - {res}")
-        xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}"
+        xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}</i>"
     elif is_sharer:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Sharer.pw</i>"
-        await message.reply_text(text=abc, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=abc)
         res = sharerpw(url)
         time_taken = get_readable_time(time() - start)
         LOGGER(__name__).info(f" Destination : {cmd} - {res}")
-        xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}"
+        xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}</i>"
     elif "pahe." in url:
         abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n\n<b>Link Type</b> : <i>Pahe</i>"
-        await message.reply_text(text=abc, disable_web_page_preview=True, quote=True)
+        await msg.edit(text=abc)
         res = pahe(url)
         time_taken = get_readable_time(time() - start)
         LOGGER(__name__).info(f" Destination : {cmd} - {res}")
-        xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}"
+        xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}</i>"
     elif "drive.google.com" in url:
         xyz = "You have entered a Google Drive Link!"
     else:
         xyz = "This Command does not support this Link!"
+    sleep(1)
     await message.reply_text(text=xyz, disable_web_page_preview=True, quote=True)

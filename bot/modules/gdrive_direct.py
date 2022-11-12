@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 import chromedriver_autoinstaller
 import cloudscraper
 import requests
-from PyBypass.GdriveSharer import appdrive_bypass, gdtot_bypass, sharerpw_bypass
+from PyBypass import bypass as gd_dir
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
@@ -17,20 +17,26 @@ from bot.config import *
 
 
 def gdtot(url: str) -> str:
-    if GDTOT_CRYPT is None:
-        return "GdTot Crypt not provided"
     crypt = GDTOT_CRYPT
-    gd_link = gdtot_bypass(url, gdtot_crypt=crypt)
-    return gd_link
+    if crypt is None:
+        return "GdTot Crypt not provided"
+    try :
+        gd_link = gd_dir(url, gdtot_crypt=crypt)
+        return gd_link
+    except Exception as err:
+        return f"Encountered Error while parsing Link : {err}"
 
 
 def unified(url: str) -> str:
     if (UNIFIED_EMAIL or UNIFIED_PASS) is None:
         return "AppDrive Look-Alike Credentials not Found!"
-    gd_link = appdrive_bypass(
-        url, appdrive_email=UNIFIED_EMAIL, appdrive_password=UNIFIED_PASS
-    )
-    return gd_link
+    try :
+        gd_link = gd_dir(
+            url, appdrive_email=UNIFIED_EMAIL, appdrive_password=UNIFIED_PASS
+        )
+        return gd_link
+    except Exception as err:
+        return f"Encountered Error while parsing Link : {err}"
 
 
 def udrive(url: str) -> str:
@@ -107,10 +113,14 @@ def parse_info(res, url):
 def sharerpw(url: str) -> str:
     if Sharerpw_XSRF is None or Sharerpw_laravel is None:
         return "Sharerpw Cookies not Found!"
-    gd_link = sharerpw_bypass(
-        url, sharerpw_xsrf_token=Sharerpw_XSRF, sharerpw_larvel_session=Sharerpw_laravel
-    )
-    return gd_link
+    try:
+        gd_link = gd_dir(
+            url, sharerpw_xsrf_token=Sharerpw_XSRF, sharerpw_laravel_session=Sharerpw_laravel
+        )
+        return gd_link
+    except Exception as err:
+        return f"Encountered Error while parsing Link : {err}"
+
 
 
 def drivehubs(url: str) -> str:
