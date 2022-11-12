@@ -20,7 +20,7 @@ def gdtot(url: str) -> str:
     crypt = GDTOT_CRYPT
     if crypt is None:
         return "GdTot Crypt not provided"
-    try :
+    try:
         gd_link = gd_dir(url, gdtot_crypt=crypt)
         return gd_link
     except Exception as err:
@@ -30,7 +30,7 @@ def gdtot(url: str) -> str:
 def unified(url: str) -> str:
     if (UNIFIED_EMAIL or UNIFIED_PASS) is None:
         return "AppDrive Look-Alike Credentials not Found!"
-    try :
+    try:
         gd_link = gd_dir(
             url, appdrive_email=UNIFIED_EMAIL, appdrive_password=UNIFIED_PASS
         )
@@ -115,12 +115,13 @@ def sharerpw(url: str) -> str:
         return "Sharerpw Cookies not Found!"
     try:
         gd_link = gd_dir(
-            url, sharerpw_xsrf_token=Sharerpw_XSRF, sharerpw_laravel_session=Sharerpw_laravel
+            url,
+            sharerpw_xsrf_token=Sharerpw_XSRF,
+            sharerpw_laravel_session=Sharerpw_laravel,
         )
         return gd_link
     except Exception as err:
         return f"Encountered Error while parsing Link : {err}"
-
 
 
 def drivehubs(url: str) -> str:

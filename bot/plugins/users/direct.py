@@ -1,5 +1,5 @@
 from re import search
-from time import time,sleep
+from time import sleep, time
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -48,7 +48,9 @@ async def direct(_, message: Message):
     uid = f"<code>{message.from_user.id}</code>"
     start = time()
     msg_text = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Processing your URL.....</b>"
-    msg = await message.reply_text(text=msg_text, disable_web_page_preview=True, quote=True)
+    msg = await message.reply_text(
+        text=msg_text, disable_web_page_preview=True, quote=True
+    )
     sleep(1)
     is_artstation = is_artstation_link(url)
     if is_artstation:

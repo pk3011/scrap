@@ -16,7 +16,6 @@ from bot.version import (
     __python_version__,
 )
 
-
 START_TEXT = """<b>Hey there!!</b>\n<b><i>I am the Multi Function Bot.</i></b>\n<i>Use buttons to navigate and know more about me :) \n\n**Bot is alive since {}.**</i>"""
 
 COMMAND_TEXT = """**Here are the list of commands wich you can use in bot.\n**"""
