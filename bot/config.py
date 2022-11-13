@@ -91,6 +91,11 @@ if len(UPTOBOX_TOKEN) == 0:
     LOGGER(__name__).warning("DRIVEBUZZ_CRYPT not provided!")
     DRIVEBUZZ_CRYPT = ""
 
+DRIVEHUB_CRYPT = environ.get("DRIVEHUB_CRYPT", "")
+if len(DRIVEHUB_CRYPT) == 0:
+    LOGGER(__name__).warning("DRIVEHUB_CRYPT not provided!")
+    DRIVEHUB_CRYPT = ""
+
 GADRIVE_CRYPT = environ.get("GADRIVE_CRYPT", "")
 if len(GADRIVE_CRYPT) == 0:
     LOGGER(__name__).warning("GADRIVE_CRYPT not provided!")

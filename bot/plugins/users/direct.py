@@ -23,7 +23,8 @@ async def direct(_, message: Message):
     """
     Get Direct Link for various Supported URLs
     """
-    msg_args = message.text.split(" ", maxsplit=1)
+    msg_arg = message.text.replace("  ", " ")
+    msg_args = msg_arg.split(" ", maxsplit=1)
     reply_to = message.reply_to_message
     if len(msg_args) > 1:
         cmd = msg_args[0]
@@ -33,16 +34,25 @@ async def direct(_, message: Message):
             reply_text = search(URL_REGEX, reply_to.text)[0]
         except BaseException:
             reply_text = (
-                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                search(URL_REGEX, str(reply_to.caption))[0]
                 .replace("\\", "")
                 .split("*")[0]
             )
         url = reply_text.strip()
         cmd = msg_args[0]
+    elif msg_args.count == (0 or 1) or reply_to is None:
+        return "Bot could not retrieve your Input!"
+
+    if url is not None:
+        if url.startswith("http://"):
+            url = url.replace("http://", "https://")
+        elif not url.startswith("https://"):
+            url = "https://" + url
     else:
         return "Bot could not retrieve your URL!"
+
     valid_url = is_a_url(url)
-    if valid_url is not True or url is None:
+    if valid_url is not True:
         return "You did not seem to have entered a valid URL!"
     uname = message.from_user.mention
     uid = f"<code>{message.from_user.id}</code>"
@@ -53,6 +63,7 @@ async def direct(_, message: Message):
     )
     sleep(1)
     is_artstation = is_artstation_link(url)
+    is_fichier = is_fichier_link(url)
     if is_artstation:
         link_type = "ArtStation"
         res = direct_link.artstation(url)
@@ -148,13 +159,13 @@ async def direct(_, message: Message):
     elif "pixeldrain." in url:
         link_type = "PixelDrain"
         res = direct_link.pixeldrain(url)
-    elif "streamlare." in url:
+    elif ("streamlare." or "sltube.") in url:
         link_type = "Streamlare"
         res = direct_link.streamlare(url)
     elif "pandafiles." in url:
         link_type = "PandaFiles"
         res = direct_link.pandafile(url)
-    elif "1fichier." in url:
+    elif is_fichier:
         link_type = "Fichier"
         res = direct_link.fichier(url)
     elif "upload.ee" in url:

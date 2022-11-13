@@ -151,7 +151,7 @@ async def botCallbacks(client, CallbackQuery):
     elif CallbackQuery.data == "SUDO_BUTTON":
         if user_id not in SUDO_USERS:
             return await CallbackQuery.answer(
-                "You are not in the sudo user list.", show_alert=True
+                "You are not in the Bot sudo user list.", show_alert=True
             )
         else:
             await CallbackQuery.edit_message_text(
@@ -161,7 +161,7 @@ async def botCallbacks(client, CallbackQuery):
     elif CallbackQuery.data == "DEV_BUTTON":
         if user_id not in OWNER_ID:
             return await CallbackQuery.answer(
-                "This is developer restricted command.", show_alert=True
+                "This is A developer restricted command.", show_alert=True
             )
         else:
             await CallbackQuery.edit_message_text(

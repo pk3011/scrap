@@ -1,12 +1,12 @@
 import os
 import re
+import base64
 from time import sleep
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 import chromedriver_autoinstaller
-import cloudscraper
 import requests
-from PyBypass import bypass as gd_dir
+from lxml import etree
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
@@ -17,48 +17,144 @@ from bot.config import *
 
 
 def gdtot(url: str) -> str:
+    if GDTOT_CRYPT is None:
+        return "GdTot Crypt not provided!"
     crypt = GDTOT_CRYPT
-    if crypt is None:
-        return "GdTot Crypt not provided"
-    try:
-        gd_link = gd_dir(url, gdtot_crypt=crypt)
-        return gd_link
-    except Exception as err:
-        return f"Encountered Error while parsing Link : {err}"
+    client = requests.Session()
+    match = re.findall(r"https?://(.+)\.gdtot\.(.+)\/\S+\/\S+", url)[0]
+    client.cookies.update({"crypt": crypt})
+    res = client.get(url)
+    res = client.get(f"https://{match[0]}.gdtot.{match[1]}/dld?id={url.split('/')[-1]}")
+    url = re.findall(r'URL=(.*?)"', res.text)[0]
+    info = {}
+    info["error"] = False
+    params = parse_qs(urlparse(url).query)
+    if "gd" not in params or not params["gd"] or params["gd"][0] == "false":
+        info["error"] = True
+        if "msgx" in params:
+            info["message"] = params["msgx"][0]
+        else:
+            info["message"] = "Invalid link"
+    else:
+        decoded_id = base64.b64decode(str(params["gd"][0])).decode("utf-8")
+        drive_link = f"https://drive.google.com/open?id={decoded_id}"
+        info["gdrive_link"] = drive_link
+    if not info["error"]:
+        return info["gdrive_link"]
+    else:
+        return f"{info['message']}"
 
 
 def unified(url: str) -> str:
     if (UNIFIED_EMAIL or UNIFIED_PASS) is None:
         return "AppDrive Look-Alike Credentials not Found!"
     try:
-        gd_link = gd_dir(
-            url, appdrive_email=UNIFIED_EMAIL, appdrive_password=UNIFIED_PASS
+        account = {"email": UNIFIED_EMAIL, "passwd": UNIFIED_PASS}
+        client = requests.Session()
+        client.headers.update(
+            {
+                "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36"
+            }
         )
-        return gd_link
+        data = {"email": account["email"], "password": account["passwd"]}
+        client.post(f"https://{urlparse(url).netloc}/login", data=data)
+        res = client.get(url)
+        key = re.findall('"key",\s+"(.*?)"', res.text)[0]
+        ddl_btn = etree.HTML(res.content).xpath("//button[@id='drc']")
+        info = re.findall(">(.*?)<\/li>", res.text)
+        info_parsed = {}
+        for item in info:
+            kv = [s.strip() for s in item.split(":", maxsplit=1)]
+            info_parsed[kv[0].lower()] = kv[1]
+        info_parsed = info_parsed
+        info_parsed["error"] = False
+        info_parsed["link_type"] = "login"
+        headers = {
+            "Content-Type": f"multipart/form-data; boundary={'-' * 4}_",
+        }
+        data = {"type": 1, "key": key, "action": "original"}
+        if len(ddl_btn):
+            info_parsed["link_type"] = "direct"
+            data["action"] = "direct"
+        while data["type"] <= 3:
+            boundary = f'{"-" * 6}_'
+            data_string = ""
+            for item in data:
+                data_string += f"{boundary}\r\n"
+                data_string += f'Content-Disposition: form-data; name="{item}"\r\n\r\n{data[item]}\r\n'
+            data_string += f"{boundary}--\r\n"
+            gen_payload = data_string
+            try:
+                response = client.post(url, data=gen_payload, headers=headers).json()
+                break
+            except BaseException:
+                data["type"] += 1
+        if "url" in response:
+            info_parsed["gdrive_link"] = response["url"]
+        elif "error" in response and response["error"]:
+            info_parsed["error"] = True
+            info_parsed["error_message"] = response["message"]
+        else:
+            info_parsed["error"] = True
+            info_parsed["error_message"] = "Something went wrong :("
+        if info_parsed["error"]:
+            return info_parsed
+        info_parsed["src_url"] = url
+        if "appdrive." in urlparse(url).netloc:
+            flink = info_parsed["gdrive_link"]
+            return flink
+        elif urlparse(url).netloc in ("driveapp.in", "drivehub.in" , "gdflix.pro", "drivesharer.in", "drivebit.in", "drivelinks.in", "driveace.in", "drivepro.in", "gdflix.top"):
+            res = client.get(info_parsed["gdrive_link"])
+            drive_link = etree.HTML(res.content).xpath(
+                "//a[contains(@class,'btn')]/@href"
+            )[0]
+            flink = drive_link
+            return flink
+        else:
+            res = client.get(info_parsed["gdrive_link"])
+            drive_link = etree.HTML(res.content).xpath(
+                "//a[contains(@class,'btn btn-primary')]/@href"
+            )[0]
+            flink = drive_link
+            return flink
     except Exception as err:
-        return f"Encountered Error while parsing Link : {err}"
+            return f"Encountered Error while parsing Link : {err}"
 
 
 def udrive(url: str) -> str:
-    if "hubdrive" or "katdrive" in url:
-        client = requests.Session()
-    else:
-        client = cloudscraper.create_scraper(delay=10, browser="chrome")
-    if "hubdrive" in url:
-        if "hubdrive.in" in url:
-            url = url.replace(".in", ".pro")
+    client = requests.Session()
+    if "hubdrive." in url:
+        url = url.replace(".me", ".pw")
+        if HUBDRIVE_CRYPT is None:
+            return "HubDrive Crypt not provided!"
         client.cookies.update({"crypt": HUBDRIVE_CRYPT})
-    if "katdrive" in url:
+    if "katdrive." in url:
+        if KATDRIVE_CRYPT is None:
+            return "KatDrive Crypt not provided!"
         client.cookies.update({"crypt": KATDRIVE_CRYPT})
-    if "kolop" in url:
+    if "kolop." in url:
+        if KOLOP_CRYPT is None:
+            return "Kolop Crypt not provided!"
         client.cookies.update({"crypt": KOLOP_CRYPT})
-    if "drivefire" in url:
+    if "drivefire." in url:
+        if DRIVEFIRE_CRYPT is None:
+            return "DriveFire Crypt not provided!"
         client.cookies.update({"crypt": DRIVEFIRE_CRYPT})
-    if "drivebuzz" in url:
+    if "drivebuzz." in url:
+        if DRIVEBUZZ_CRYPT is None:
+            return "DriveBuzz Crypt not provided!"
         client.cookies.update({"crypt": DRIVEBUZZ_CRYPT})
-    if "gadrive" in url:
+    if "drivehub." in url:
+        if DRIVEHUB_CRYPT is None:
+            return "DriveHub Crypt not provided!"
+        client.cookies.update({"crypt": DRIVEHUB_CRYPT})
+    if "gadrive." in url:
+        if GADRIVE_CRYPT is None:
+            return "GaDrive Crypt not provided!"
         client.cookies.update({"crypt": GADRIVE_CRYPT})
-    if "jiodrive" in url:
+    if "jiodrive." in url:
+        if JIODRIVE_CRYPT is None:
+            return "JioDrive Crypt not provided!"
         client.cookies.update({"crypt": JIODRIVE_CRYPT})
     res = client.get(url)
     info_parsed = parse_info(res, url)
@@ -72,15 +168,15 @@ def udrive(url: str) -> str:
         res = client.post(req_url, headers=headers, data=data).json()["file"]
     except BaseException:
         return "File Not Found or User rate exceeded !!"
-    if "drivefire" in url:
+    if "drivefire." in url:
         gd_id = res.rsplit("/", 1)[-1]
         flink = f"https://drive.google.com/file/d/{gd_id}"
         return flink
-    elif "drivehub" in url:
+    elif "drivehub." in url:
         gd_id = res.rsplit("=", 1)[-1]
         flink = f"https://drive.google.com/open?id={gd_id}"
         return flink
-    elif "drivebuzz" in url:
+    elif "drivebuzz." in url:
         gd_id = res.rsplit("=", 1)[-1]
         flink = f"https://drive.google.com/open?id={gd_id}"
         return flink
@@ -95,7 +191,7 @@ def udrive(url: str) -> str:
 
 def parse_info(res, url):
     info_parsed = {}
-    if "drivebuzz" in url:
+    if "drivebuzz." in url:
         info_chunks = re.findall('<td\salign="right">(.*?)<\/td>', res.text)
     elif "sharer.pw" in url:
         f = re.findall(">(.*?)<\/td>", res.text)
@@ -110,16 +206,44 @@ def parse_info(res, url):
     return info_parsed
 
 
-def sharerpw(url: str) -> str:
-    if Sharerpw_XSRF is None or Sharerpw_laravel is None:
+def sharerpw(url: str, forced_login=False) -> str:
+    if (Sharerpw_XSRF or Sharerpw_laravel) is None:
         return "Sharerpw Cookies not Found!"
     try:
-        gd_link = gd_dir(
-            url,
-            sharerpw_xsrf_token=Sharerpw_XSRF,
-            sharerpw_laravel_session=Sharerpw_laravel,
+        scraper = requests.Session()
+        scraper.cookies.update(
+            {
+                "XSRF-TOKEN": Sharerpw_XSRF,
+                "laravel_session": Sharerpw_laravel,
+            }
         )
-        return gd_link
+        res = scraper.get(url)
+        token = re.findall("_token\s=\s'(.*?)'", res.text, re.DOTALL)[0]
+        ddl_btn = etree.HTML(res.content).xpath("//button[@id='btndirect']")
+        info_parsed = parse_info(res, url)
+        info_parsed["error"] = True
+        info_parsed["src_url"] = url
+        info_parsed["link_type"] = "login"
+        info_parsed["forced_login"] = forced_login
+        headers = {
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "x-requested-with": "XMLHttpRequest",
+        }
+        data = {"_token": token}
+        if len(ddl_btn):
+            info_parsed["link_type"] = "direct"
+        if not forced_login:
+            data["nl"] = 1
+        try:
+            res = scraper.post(url + "/dl", headers=headers, data=data).json()
+        except BaseException:
+            return info_parsed
+        if "url" in res and res["url"]:
+            info_parsed["error"] = False
+            info_parsed["gdrive_link"] = res["url"]
+        if len(ddl_btn) and not forced_login and "url" not in info_parsed:
+            return sharerpw(url, forced_login=True)
+        return info_parsed["gdrive_link"]
     except Exception as err:
         return f"Encountered Error while parsing Link : {err}"
 

@@ -18,12 +18,13 @@
 - `KOLOP_CRYPT` Put your Kolop Crypt
 - `DRIVEFIRE_CRYPT` Put your DriveFire Crypt
 - `DRIVEBUZZ_CRYPT` Put your DriveBuzz Crypt
+- `DRIVEHUB_CRYPT` Put your DriveHub Crypt
 - `GADRIVE_CRYPT` Put your GaDrive Crypt
 - `JIODRIVE_CRYPT` Put your JioDrive Crypt
 - `Sharerpw_XSRF` Put your Sharer XSRF Token
 - `Sharerpw_laravel` Put your Sharer Laravel Session
 - `UPTOBOX_TOKEN` Put your UptoBox Account Token (Free Account works too!)
-- `EMILY_API_URL` Your [Emily API](https://github.com/missemily2022/Emily-API) instance Url. Separate API URLs by space
+- `EMILY_API_URL` Your [Emily API](https://github.com/missemily2022/Emily-API) instance Urls. Separate API URLs by space
 - `UPSTREAM_REPO` Add the Upstream Repo of your Bot for automatic updation
 ---
 
@@ -39,6 +40,7 @@ bypass - Bypass Various Supported Shortened URLs
 multi - Bypass Short Links using PyBypass Library
 shorten - Get AdFree Shortened URLs of your Link
 magnet - Extract Magnet from Torrent Websites
+mkvcinema - Scrape MKV Cinemas URL for Direct Links
 index - Extract Direct Links from Bhadoo Index Folder URLs
 scrape - Extract Direct Links from Supported Sites
 gd - Get GDrive Links for various Drive File Sharer
@@ -59,6 +61,7 @@ gd - Get GDrive Links for various Drive File Sharer
     /multi - Bypass Short Links using PyBypass Library <br>
     /shorten - Get AdFree Shortened URLs of your Link <br>
     /magnet - Extract Magnet from Torrent Websites <br>
+    /mkvcinema - Scrape MKV Cinemas URL for Direct Links <br>
     /index - Extract Direct Links from Bhadoo Index Folder URLs <br>
     /scrape - Extract Direct Links from Supported Sites <br>
     /gd - Get GDrive Links for various Drive File Sharer <br>

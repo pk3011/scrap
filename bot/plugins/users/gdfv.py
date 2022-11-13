@@ -20,7 +20,8 @@ async def gd(_, message: Message):
     """
     Get GDrive Links for various Drive File Sharer
     """
-    msg_args = message.text.split(" ", maxsplit=1)
+    msg_arg = message.text.replace("  ", " ")
+    msg_args = msg_arg.split(" ", maxsplit=1)
     reply_to = message.reply_to_message
     if len(msg_args) > 1:
         cmd = msg_args[0]
@@ -30,16 +31,25 @@ async def gd(_, message: Message):
             reply_text = search(URL_REGEX, reply_to.text)[0]
         except BaseException:
             reply_text = (
-                search(URL_REGEX, reply_to.caption_markdown_v2)[0]
+                search(URL_REGEX, str(reply_to.caption))[0]
                 .replace("\\", "")
                 .split("*")[0]
             )
         url = reply_text.strip()
         cmd = msg_args[0]
+    elif msg_args.count == (0 or 1) or reply_to is None:
+        return "Bot could not retrieve your Input!"
+
+    if url is not None:
+        if url.startswith("http://"):
+            url = url.replace("http://", "https://")
+        elif not url.startswith("https://"):
+            url = "https://" + url
     else:
         return "Bot could not retrieve your URL!"
+
     valid_url = is_a_url(url)
-    if valid_url is not True or url is None:
+    if valid_url is not True:
         return "You did not seem to have entered a valid URL!"
     uname = message.from_user.mention
     uid = f"<code>{message.from_user.id}</code>"
@@ -98,8 +108,10 @@ async def gd(_, message: Message):
         LOGGER(__name__).info(f" Destination : {cmd} - {res}")
         xyz = f"<b>Direct Gdrive Link :\n</b>{res}\n\n<i>Time Taken : {time_taken}</i>"
     elif "drive.google.com" in url:
+        await msg.delete()
         xyz = "You have entered a Google Drive Link!"
     else:
+        await msg.delete()
         xyz = "This Command does not support this Link!"
     sleep(1)
     await message.reply_text(text=xyz, disable_web_page_preview=True, quote=True)

@@ -46,6 +46,14 @@ def is_artstation_link(url: str):
     return bool(url)
 
 
+def is_fichier_link(url: str):
+    url = re.match(
+        r"https?://(pjointe|dl4free|tenvoi|piecejointe|mesfichiers|desfichiers|megadl|dfichiers|alterupload|cjoint|1fichier|\.com/\?)\S+",
+        url,
+    )
+    return bool(url)
+
+
 def is_sendcm_folder_link(url: str):
     return (
         "https://send.cm/s/" in url
