@@ -4,10 +4,6 @@ name: Publish Docker Image
 # They are provided by a third-party and are governed by separate terms of service, privacy policy, and support documentation.
 
 on:
-  push:
-    branches: [ "main" ]
-    # Publish server tags as releases.
-    tags: [ 'v*.*.*' ]
   pull_request:
     branches: [ "main" ]
 

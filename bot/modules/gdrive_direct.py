@@ -46,6 +46,7 @@ def gdtot(url: str) -> str:
 
 
 def unified(url: str) -> str:
+    global response
     if (UNIFIED_EMAIL or UNIFIED_PASS) is None:
         return "AppDrive Look-Alike Credentials not Found!"
     try:
@@ -98,7 +99,7 @@ def unified(url: str) -> str:
             info_parsed["error"] = True
             info_parsed["error_message"] = "Something went wrong :("
         if info_parsed["error"]:
-            return info_parsed
+            return f"{info_parsed}"
         info_parsed["src_url"] = url
         if "appdrive." in urlparse(url).netloc:
             flink = info_parsed["gdrive_link"]
@@ -107,12 +108,12 @@ def unified(url: str) -> str:
             "driveapp.in",
             "drivehub.in",
             "gdflix.pro",
+            "gdflix.top",
             "drivesharer.in",
             "drivebit.in",
             "drivelinks.in",
             "driveace.in",
             "drivepro.in",
-            "gdflix.top",
         ):
             res = client.get(info_parsed["gdrive_link"])
             drive_link = etree.HTML(res.content).xpath(
@@ -247,7 +248,7 @@ def sharerpw(url: str, forced_login=False) -> str:
         try:
             res = scraper.post(url + "/dl", headers=headers, data=data).json()
         except BaseException:
-            return info_parsed
+            return f"{info_parsed}"
         if "url" in res and res["url"]:
             info_parsed["error"] = False
             info_parsed["gdrive_link"] = res["url"]
