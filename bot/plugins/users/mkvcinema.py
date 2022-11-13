@@ -1,24 +1,22 @@
 from re import search
 from time import sleep, time
-from bs4 import BeautifulSoup
-from requests import get as rget
-
-from pyrogram import Client, filters
-from pyrogram.types import Message
-
-from bot.config import *
-from bot.logging import LOGGER
-from bot.modules.regex import *
-from bot.helpers.decorators import user_commands
-from bot.helpers.functions import get_readable_time
-from bot.modules.pasting import telegraph_paste
 
 import chromedriver_autoinstaller
+from bs4 import BeautifulSoup
+from pyrogram import Client, filters
+from pyrogram.types import Message
+from requests import get as rget
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
 
+from bot.config import *
+from bot.helpers.decorators import user_commands
+from bot.helpers.functions import get_readable_time
+from bot.logging import LOGGER
+from bot.modules.pasting import telegraph_paste
+from bot.modules.regex import *
 
 prefixes = COMMAND_PREFIXES
 commands = ["mkvcinema", f"mkvcinema@{BOT_USERNAME}"]
@@ -74,20 +72,22 @@ async def bypass(_, message: Message):
     abc = f"<b>Dear</b> {uname} (ID: {uid}),\n\n<b>Bot has received the following link</b>‌ :\n<code>{url}</code>\n<b>Link Type</b> : <i>MKVCinemas</i>"
     await msg.edit(text=abc)
     try:
-        soup = BeautifulSoup(rget(url).content, 'html.parser')
+        soup = BeautifulSoup(rget(url).content, "html.parser")
         links = []
-        for link in soup.find_all('a', class_="gdlink"):
-            links.append(link.get('href'))
+        for link in soup.find_all("a", class_="gdlink"):
+            links.append(link.get("href"))
 
-        for link in soup.find_all('a', class_="button"):
-            links.append(link.get('href'))
+        for link in soup.find_all("a", class_="button"):
+            links.append(link.get("href"))
 
         melob_links = []
         count = -1
         for l in links:
             count += 1
-            id = BeautifulSoup(rget(links[count]).content, 'html.parser').find_all("input")[1]['value']
-            link = f'https://www.mealob.com{id}'
+            id = BeautifulSoup(rget(links[count]).content, "html.parser").find_all(
+                "input"
+            )[1]["value"]
+            link = f"https://www.mealob.com{id}"
             melob_links.append(link)
         melob_count = len(melob_links)
         wait_time = get_readable_time(len(melob_links) * 23)
@@ -109,23 +109,29 @@ async def bypass(_, message: Message):
         showlink = '//*[@id="showlink"]'
         landing = '//*[@id="landing"]/div[2]/center/img'
         chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-dev-shm-usage")
         wd = webdriver.Chrome(options=chrome_options)
         try:
             wd.get(link)
             sleep(3)
-            WebDriverWait(wd, 10).until(ec.element_to_be_clickable((By.XPATH, landing))).click()
-            WebDriverWait(wd, 10).until(ec.element_to_be_clickable((By.XPATH, generater))).click()
-            WebDriverWait(wd, 10).until(ec.element_to_be_clickable((By.XPATH, showlink))).click()
+            WebDriverWait(wd, 10).until(
+                ec.element_to_be_clickable((By.XPATH, landing))
+            ).click()
+            WebDriverWait(wd, 10).until(
+                ec.element_to_be_clickable((By.XPATH, generater))
+            ).click()
+            WebDriverWait(wd, 10).until(
+                ec.element_to_be_clickable((By.XPATH, showlink))
+            ).click()
             wd.current_window_handle
             IItab = wd.window_handles[1]
             wd.switch_to.window(IItab)
-            LOGGER(__name__).info(f'Bypassed Link: {cmd} - {wd.current_url}')
+            LOGGER(__name__).info(f"Bypassed Link: {cmd} - {wd.current_url}")
             bypassed_links.append(wd.current_url)
         except Exception as err:
-            LOGGER(__name__).error(f'MKVCinema Melob Error: {err}')
+            LOGGER(__name__).error(f"MKVCinema Melob Error: {err}")
             failed_links.append(link)
     if len(failed_links) == melob_count:
         await temp.delete()
@@ -135,8 +141,8 @@ async def bypass(_, message: Message):
 
     bypassed_msg = ""
     for bypsd_link in bypassed_links:
-        bypassed_msg += f'• <code>{bypsd_link}</code><br>>'
+        bypassed_msg += f"• <code>{bypsd_link}</code><br>>"
     tlg_url = telegraph_paste(bypassed_msg)
     timelog = get_readable_time(time() - start)
-    final = f'Bypassed Result(via Telegraph): \n{tlg_url}\nTime Taken: {timelog}'
+    final = f"Bypassed Result(via Telegraph): \n{tlg_url}\nTime Taken: {timelog}"
     await msg.edit(text=final)

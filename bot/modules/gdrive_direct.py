@@ -1,6 +1,6 @@
+import base64
 import os
 import re
-import base64
 from time import sleep
 from urllib.parse import parse_qs, urlparse
 
@@ -103,7 +103,17 @@ def unified(url: str) -> str:
         if "appdrive." in urlparse(url).netloc:
             flink = info_parsed["gdrive_link"]
             return flink
-        elif urlparse(url).netloc in ("driveapp.in", "drivehub.in" , "gdflix.pro", "drivesharer.in", "drivebit.in", "drivelinks.in", "driveace.in", "drivepro.in", "gdflix.top"):
+        elif urlparse(url).netloc in (
+            "driveapp.in",
+            "drivehub.in",
+            "gdflix.pro",
+            "drivesharer.in",
+            "drivebit.in",
+            "drivelinks.in",
+            "driveace.in",
+            "drivepro.in",
+            "gdflix.top",
+        ):
             res = client.get(info_parsed["gdrive_link"])
             drive_link = etree.HTML(res.content).xpath(
                 "//a[contains(@class,'btn')]/@href"
@@ -118,7 +128,7 @@ def unified(url: str) -> str:
             flink = drive_link
             return flink
     except Exception as err:
-            return f"Encountered Error while parsing Link : {err}"
+        return f"Encountered Error while parsing Link : {err}"
 
 
 def udrive(url: str) -> str:

@@ -8,10 +8,10 @@ import requests
 from bs4 import BeautifulSoup
 from lk21 import Bypass
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import TimeoutException
 
 from bot.config import *
 from bot.helpers.functions import api_checker
@@ -248,10 +248,14 @@ def hubcloud(url):
     wd = webdriver.Chrome(options=chrome_options)
     wd.get(url)
     try:
-        WebDriverWait(wd, 8).until(ec.element_to_be_clickable((By.XPATH, bgsora))).click()
+        WebDriverWait(wd, 8).until(
+            ec.element_to_be_clickable((By.XPATH, bgsora))
+        ).click()
     except TimeoutException:
         sleep(3)
-        WebDriverWait(wd, 12).until(ec.element_to_be_clickable((By.XPATH, bgsora))).click()
+        WebDriverWait(wd, 12).until(
+            ec.element_to_be_clickable((By.XPATH, bgsora))
+        ).click()
     sleep(8)
     flink = wd.current_url
     pattern1 = re.compile(r"\bhttps?://.*(hubcloud)\S+", re.IGNORECASE)
